@@ -1,8 +1,16 @@
 # ROOM DATE 
+
 <h1 align="center">Hi 👋, we're Room Date</h1>
 <h3 align="center">Room Date is a <strong>Human</strong> focused app designed to connect people by lifestyle and region.</h3>
 
-Log in securely with your Google account to access potential roomies.
+<h6 align= "center">We use detailed information provided by users to match them with potential housemates in their chosen region. 
+Historically, finding housemates online has been impersonal and clumsy, often leaving much to be desired. 
+Room Date aims to eliminate those awkward interactions by helping you match with people based on shared interests or values.
+Using a dating app styled UI it's easy to swipe through our database and find potential roomies with a familiar UX.  
+
+Log in securely with your Google account to access potential roomies.</h6>
+
+
 
 
 <h3 align="left">Languages and Tools:</h3>
