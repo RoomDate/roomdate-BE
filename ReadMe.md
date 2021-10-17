@@ -1,6 +1,6 @@
 # ROOM DATE 
 <h1 align="center">Hi 👋, we're Room Date</h1>
-<h3 align="center">Room Date is a **Human focused app designed to connect people by lifestyle and region.</h3>
+<h3 align="center">Room Date is a <strong>Human</strong> focused app designed to connect people by lifestyle and region.</h3>
 
 Log in securely with your Google account to access potential roomies.
 
