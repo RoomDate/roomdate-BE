@@ -1,4 +1,4 @@
-# ROOM DATE 
+
 
 <h1 align="center">Hi 👋, we're Room Date</h1>
 <h3 align="center">Room Date is a <strong>Human</strong> focused app designed to connect people by lifestyle and region.</h3>
