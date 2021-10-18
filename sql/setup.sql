@@ -15,7 +15,7 @@ CREATE TABLE users_main (
 
 CREATE TABLE employment (
   	employment_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    employed_status TEXT NOT NULL UNIQUE
+    employment_status TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE education (
