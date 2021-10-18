@@ -111,6 +111,29 @@ describe('roomdate routes', () => {
 
   //----------------------------------------------------------------------------------//
 
+  it('SEED users_profile', async () => {
+    const userProfile = await Promise.all(seedUsersProfile.map(async (userProf) =>  await pool.query(`
+        INSERT INTO users_profile(
+          preference_username,
+          username,
+          role_type,
+          employment_id ,
+          education_id,
+          user_info ) 
+          VALUES($1, $2, $3, $4, $5, $6) RETURNING *`, [
+      userProf.preference_username, 
+      userProf.username, 
+      userProf.role_type, 
+      userProf.employment_id, 
+      userProf.education_id, 
+      userProf.user_info
+    ]))
+    );
+
+    expect(userProfile).toEqual(seedUsersProfile);
+  });
+
+  //----------------------------------------------------------------------------------//
 
   afterAll(() => {
     pool.end();
