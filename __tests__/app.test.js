@@ -2,15 +2,8 @@ const pool = require('../lib/utils/pool.js');
 const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
-
-const seedEducation = require('../data/seedEducation');
-const seedEmployment = require('../data/seedEmployment');
-const seedPreferences = require('../data/seedPreferences');
-const seedRoles = require('../data/seedRoles');
-const seedUsernames = require('../data/seedUsernames');
-const seedUsersInfo = require('../data/seedUsersInfo');
-const seedUsersProfile = require('../data/seedUsersProfile');
 const { use } = require('../lib/app.js');
+const getZipcodes = require('../lib/utils/helper.js');
 
 describe.skip('roomdate routes', () => {
   beforeAll(() => {
@@ -21,8 +14,19 @@ describe.skip('roomdate routes', () => {
     expect(true).toEqual(true);
   });
   //----------------------------------------------------------------------------------//
+  it('gets a list of zipcodes and info about it', async () => {
 
-
+    const res = await getZipcodes('02148');
+    expect(res.DataList).toEqual(expect.any(Array));
+    expect(res.DataList[0]).toEqual({
+      'Code': '02148',
+      'City':'MALDEN',
+      'State': 'MA',
+      'Latitude': expect.any(Number),
+      'Longitude':expect.any(Number),
+      'County': expect.any(String)
+    });
+  });
 
   //----------------------------------------------------------------------------------//
 
