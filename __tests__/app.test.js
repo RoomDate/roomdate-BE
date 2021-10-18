@@ -10,6 +10,7 @@ const seedRoles = require('../data/seedRoles');
 const seedUsernames = require('../data/seedUsernames');
 const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
+const { use } = require('../lib/app.js');
 
 describe('roomdate routes', () => {
   beforeAll(() => {
@@ -85,7 +86,30 @@ describe('roomdate routes', () => {
   });
 
   //----------------------------------------------------------------------------------//
+  
+  it('SEED preferences', async () => {
+    const userPreferences = await Promise.all(seedPreferences.map(async (userPrefer) =>  await pool.query(`
+        INSERT INTO preferences(
+            username,
+            smoke,
+            gender,
+            drugs,
+            alcohol,
+            introvert,
+            extrovert,
+            cleanlieness,
+            pets,
+            age,
+            radius,
+            employment_status,
+            education_status) 
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`, [userPrefer.username, userPrefer.smoke, userPrefer.gender, userPrefer.drugs, userPrefer.alcohol, userPrefer.introvert, userPrefer.extrovert, userPrefer.cleanlieness, userPrefer.pets, userPrefer.age, userPrefer.radius, userPrefer.employment_status, userPrefer.education_status]))
+    );
 
+    expect(userPreferences).toEqual(seedPreferences);
+  });
+
+  //----------------------------------------------------------------------------------//
 
 
   afterAll(() => {
