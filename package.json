@@ -41,6 +41,7 @@
     "faker": "^5.5.3",
     "googleapis": "^88.2.0",
     "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.1",
     "pg": "^8.7.1"
   }
 }
