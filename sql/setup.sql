@@ -14,27 +14,30 @@ CREATE TABLE users_main (
 );
 
 CREATE TABLE employment (
-  	employment_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    employment_status TEXT NOT NULL UNIQUE
+  	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    job_status TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE education (
-	education_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  	education_status TEXT NOT NULL UNIQUE
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  	edu_status TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE roles (
-	role_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  	role_type TEXT NOT NULL UNIQUE
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  	type TEXT NOT NULL UNIQUE
 );
 
 
 CREATE TABLE users_info (
-	user_info_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   	first_name TEXT NOT NULL,
     username TEXT NOT NULL REFERENCES users_main(username),
+	job_status BIGINT REFERENCES employment(id),
+  	edu_status BIGINT REFERENCES education(id),
   	last_name TEXT NOT NULL,
   	dob DATE NOT NULL,
+	age INT NOT NULL,
   	gender TEXT NOT NULL,
   	zipcode BIGINT NOT NULL,
   	bio VARCHAR(200),
@@ -43,12 +46,12 @@ CREATE TABLE users_info (
   	alcohol BOOLEAN,
   	introvert BOOLEAN,
    	extrovert BOOLEAN,
-  	cleanlieness INT,
+  	cleanliness INT,
   	pets BOOLEAN
 );
 
 CREATE TABLE preferences(
-	preference_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   	username TEXT NOT NULL REFERENCES users_main(username),
 	smoke BOOLEAN,
     gender TEXT,
@@ -56,24 +59,24 @@ CREATE TABLE preferences(
   	alcohol BOOLEAN,
   	introvert BOOLEAN,
    	extrovert BOOLEAN,
-  	cleanlieness INT,
+  	cleanliness INT,
   	pets BOOLEAN,
   	age INT,
   	radius INT,
-  	employment_status BIGINT REFERENCES employment(employment_id),
-  	education_status BIGINT REFERENCES education(education_id)
+  	job_status BIGINT REFERENCES employment(id),
+  	edu_status BIGINT REFERENCES education(id)
 );
 
 
 
 CREATE TABLE users_profile (
-  	user_profile_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  	preference_username BIGINT NOT NULL REFERENCES preferences(preference_id),
+  	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  	preference_id BIGINT NOT NULL REFERENCES preferences(id),
   	username TEXT NOT NULL REFERENCES users_main(username),
-  	role_type BIGINT NOT NULL REFERENCES roles(role_id),
-  	employment_id BIGINT NOT NULL REFERENCES employment(employment_id),
-  	education_id BIGINT NOT NULL REFERENCES  education(education_id),
-  	user_info BIGINT NOT NULL REFERENCES users_info(user_info_id)
+  	role_id BIGINT NOT NULL REFERENCES roles(id),
+  	job_id BIGINT NOT NULL REFERENCES employment(id),
+  	edu_id BIGINT NOT NULL REFERENCES  education(id),
+  	user_info_id BIGINT NOT NULL REFERENCES users_info(id)
 --   	matches TEXT[],
 --   	liked_profiles TEXT [],
 --   	disliked_profiles TEXT []
