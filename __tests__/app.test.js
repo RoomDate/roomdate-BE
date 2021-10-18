@@ -19,8 +19,6 @@ describe('roomdate routes', () => {
   it('hshshs', async () => {
     expect(true).toEqual(true);
   });
-
-
   //----------------------------------------------------------------------------------//
 
   it('SEED users_main', async () => {
@@ -40,6 +38,16 @@ describe('roomdate routes', () => {
         VALUES($1) RETURNING *`, [employee.employment_status])));
 
     expect(userEmployment).toEqual(seedEmployment);
+  });
+
+  //----------------------------------------------------------------------------------//
+
+  it('SEED education', async () => {
+    const userEducation = await Promise.all(seedEducation.map(async (education) =>  await pool.query(`
+        INSERT INTO education (education_status) 
+        VALUES($1) RETURNING *`, [education.education_status])));
+
+    expect(userEducation).toEqual(seedEducation);
   });
 
   //----------------------------------------------------------------------------------//
