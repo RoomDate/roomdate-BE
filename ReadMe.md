@@ -10,8 +10,9 @@ Using a dating app styled UI it's easy to swipe through our database and find po
 
 Log in securely with your Google account to access potential roomies.</h6>
 
+![FrontendMockup](https://user-images.githubusercontent.com/83792867/137665640-1cb9f64b-4aee-4534-85e7-1750470c4c7e.png)
 
-![phonemock](https://user-images.githubusercontent.com/83792867/137647908-62106eca-8dd0-4520-b4ce-09bf7a271a77.png)
+
 
 
 
