@@ -6,16 +6,15 @@ const generateDate = () => {
 };
 
 
-
 module.exports = [
   {
-    user_info_id: 1,
+    user_info_id: '1',
     username: 'user1',
     first_name : 'pepe',
     last_name: 'ochoa',
     dob: generateDate(),
     gender: 'male',
-    zipcode: `${faker.address.zipCode()}`,
+    zipcode: 80208,
     bio:' Hello my name slim shady',
     smoke: true,
     drugs: true,
@@ -26,13 +25,13 @@ module.exports = [
     pets: true
   },
   {
-    user_info_id: 2,
+    user_info_id: '2',
     username: 'user2',
     first_name : 'Angelina',
     last_name: 'Jolie',
     dob: generateDate(),
     gender: 'female',
-    zipcode: `${faker.address.zipCode()}`,
+    zipcode: 80208,
     bio:'Hello, I am Tomb Raider',
     smoke: false,
     drugs: false,
@@ -43,13 +42,13 @@ module.exports = [
     pets: true
   },
   {
-    user_info_id: 3,
+    user_info_id: '3',
     username: 'user3',
     first_name : 'Cristiano',
     last_name: 'Ronaldo',
     dob: generateDate(),
     gender: 'male',
-    zipcode: `${faker.address.zipCode()}`,
+    zipcode: 80204,
     bio:'I am the best soccer player in the world',
     smoke: true,
     drugs: true,
@@ -60,13 +59,13 @@ module.exports = [
     pets: false
   },
   {
-    user_info_id: 4,
+    user_info_id: '4',
     username: 'user4',
     first_name : 'Luke',
     last_name: 'Skywalker',
     dob: generateDate(),
     gender: 'male',
-    zipcode: `${faker.address.zipCode()}`,
+    zipcode: 80204,
     bio:' I am a jedi',
     smoke: false,
     drugs: true,

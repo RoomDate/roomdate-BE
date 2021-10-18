@@ -8,7 +8,7 @@ const seedEmployment = require('../data/seedEmployment');
 const seedPreferences = require('../data/seedPreferences');
 const seedRoles = require('../data/seedRoles');
 const seedUsernames = require('../data/seedUsernames');
-const seedUsersinfo = require('../data/seedUsersInfo');
+const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
 
 describe('roomdate routes', () => {
@@ -48,6 +48,40 @@ describe('roomdate routes', () => {
         VALUES($1) RETURNING *`, [education.education_status])));
 
     expect(userEducation).toEqual(seedEducation);
+  });
+
+  //----------------------------------------------------------------------------------//
+  it('SEED roles', async () => {
+    const userRole = await Promise.all(seedRoles.map(async (role) =>  await pool.query(`
+        INSERT INTO roles (role_type) 
+        VALUES($1) RETURNING *`, [role.role_type])));
+
+    expect(userRole).toEqual(seedRoles);
+  });
+
+  //----------------------------------------------------------------------------------//
+
+  it('SEED users_info', async () => {
+    const userInformation = await Promise.all(seedUsersInfo.map(async (userInfo) =>  await pool.query(`
+        INSERT INTO users_info (
+          first_name, 
+          username, 
+          last_name, 
+          dob, 
+          gender, 
+          zipcode, 
+          bio, 
+          smoke, 
+          drugs, 
+          alcohol, 
+          introvert, 
+          extrovert, 
+          cleanlieness, 
+          pets) 
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`, [userInfo.first_name, userInfo.username, userInfo.last_name, userInfo.dob, userInfo.gender, userInfo.zipcode, userInfo.bio, userInfo.smoke, userInfo.drugs, userInfo.alcohol, userInfo.introvert, userInfo.extrovert, userInfo.cleanlieness, userInfo.pets]))
+    );
+
+    expect(userInformation).toEqual(seedUsersInfo);
   });
 
   //----------------------------------------------------------------------------------//
