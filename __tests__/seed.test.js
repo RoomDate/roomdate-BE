@@ -15,7 +15,7 @@ const seedUsersProfile = require('../data/seedUsersProfile');
 const { use } = require('../lib/app.js');
 const User = require('../lib/models/User.js');
 
-describe('roomdate routes', () => {
+describe.skip('roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
