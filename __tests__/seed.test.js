@@ -142,8 +142,8 @@ describe('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
   
     it('POST login returns the user that is logging in', async () => {
-
-        const res = await request(app).post('/api/v1/users/login').send({ username: 'user2' });
+        const agent = request.agent(app);
+        const res = await agent.post('/api/v1/users/login').send({ username: 'user2' });
       
         expect(res.body).toEqual({ username: 'user2' });
     });
@@ -151,7 +151,9 @@ describe('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
 
     it('GET zipcode and returns all users in a 5 mile radius', async () => {
-        const res = await request(app).get('/api/v1/users/zipcode/80204');
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user1' });        
+        const res = await agent.get('/api/v1/users/zipcode/80204');
       
         expect(res.body).toEqual(expect.any(Array));
     });
