@@ -162,12 +162,29 @@ describe('roomdate routes', () => {
 
     it('GET zipcode and returns all users in a 5 mile radius, but only roommies', async () => {
         const agent = request.agent(app);
-        await agent.post('/api/v1/users/login').send({ username: 'user1' });        
-        const res = await agent.get('/api/v1/users/zipcode/80204/roommies');
+        await agent.post('/api/v1/users/login').send({ username: 'user2' });        
+        const res = await agent.get('/api/v1/users/roommies/zipcode/80204');
 
         let bool = true;
         for(let i = 0; i < res.body.length; i++){
             if(res.body[i].type !== 'roommie'){
+                bool = false;
+            }
+
+        }
+        expect(bool).toEqual(true);
+    });
+    
+    //----------------------------------------------------------------------------------//
+
+    it('GET zipcode and returns all users in a 5 mile radius, but only housers', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user1' });        
+        const res = await agent.get('/api/v1/users/roommies/zipcode/80204');
+
+        let bool = true;
+        for(let i = 0; i < res.body.length; i++){
+            if(res.body[i].type !== 'houser'){
                 bool = false;
             }
 
