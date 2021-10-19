@@ -13,6 +13,7 @@ const seedUsernames = require('../data/seedUsernames');
 const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
 const { use } = require('../lib/app.js');
+const getZipcodes = require('../lib/utils/helper.js');
 
 describe('roomdate routes', () => {
     beforeAll(() => {
@@ -147,9 +148,15 @@ describe('roomdate routes', () => {
         expect(res.body).toEqual({ username: 'user2' });
     });
     
+    //----------------------------------------------------------------------------------//
 
-
-
+    it('GET zipcode and returns all users in a 5 mile radius', async () => {
+        await getZipcodes('80204');
+        const res = await request(app).get('/api/v1/users/zipcode/80204');
+      
+        expect(res.body).toEqual(expect.any(Array));
+    });
+    
     //----------------------------------------------------------------------------------//
 
 
