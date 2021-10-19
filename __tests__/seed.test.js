@@ -13,7 +13,6 @@ const seedUsernames = require('../data/seedUsernames');
 const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
 const { use } = require('../lib/app.js');
-const getZipcodes = require('../lib/utils/helper.js');
 
 describe('roomdate routes', () => {
     beforeAll(() => {
@@ -138,6 +137,23 @@ describe('roomdate routes', () => {
 
         expect(true).toEqual(true);
     });
+
+
+
+
+
+
+    //---------****-----------------------------******-----------------------------------//
+  
+    it('POST new user to data base', async () => {
+        const agent = request.agent(app);
+        const res = await agent.post('/api/v1/users/signup').send({ google_id: '122.3445.224', username: 'user5' });
+  
+        expect(res.body).toEqual({ username: 'user2' });
+    }); // --- working - cristian
+
+
+
 
     //----------------------------------------------------------------------------------//
   
