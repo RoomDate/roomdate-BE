@@ -151,7 +151,6 @@ describe('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
 
     it('GET zipcode and returns all users in a 5 mile radius', async () => {
-        await getZipcodes('80204');
         const res = await request(app).get('/api/v1/users/zipcode/80204');
       
         expect(res.body).toEqual(expect.any(Array));
