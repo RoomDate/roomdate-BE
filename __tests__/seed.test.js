@@ -137,6 +137,20 @@ describe('roomdate routes', () => {
     });
 
     //----------------------------------------------------------------------------------//
+  
+    it('POST login returns the user that is logging in', async () => {
+
+        const res = await request(app).post('/api/v1/users/login').send({ username: 'user2' });
+      
+        expect(res.body).toEqual({ username: 'user2' });
+    });
+    
+
+
+
+    //----------------------------------------------------------------------------------//
+
+
 
     afterAll(() => {
         pool.end();
