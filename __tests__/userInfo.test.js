@@ -137,7 +137,12 @@ describe('user_info roomdate routes', () => {
         expect(true).toEqual(true);
     });
 
-it('POST new users_info', async () => {
+    it('POST new user to data base', async () => {
+        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
+        expect(true).toEqual(true);
+    }); 
+
+    it('POST new users_info', async () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         const res =  await agent.post('/api/v1/users/usersinfo').send({
@@ -180,8 +185,11 @@ it('POST new users_info', async () => {
             cleanliness: expect.any(Number),
             pets: expect.any(Boolean)
         });
-
-
-
-
     }); 
+
+
+
+    afterAll(() => {
+        pool.end();
+    });
+});
