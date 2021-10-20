@@ -199,7 +199,7 @@ describe('roomdate preference routes', () => {
     });
 
     //----------------------------------------------------------------------------------//    
-    it('PUT an existing user', async () => {
+    it('updates an existing users preferences', async () => {
         // const entry = await Preference.create(seedData[0]);
         const agent = request.agent(app);
         const updateEntry = {
@@ -219,8 +219,12 @@ describe('roomdate preference routes', () => {
             edu_status: '1'
         };
 
-        await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        const res =  await agent.put('/api/v1/preferences/5').send(updateEntry);
+        await agent
+            .post('/api/v1/users/login')
+            .send({ username: 'user5' });
+        const res =  await agent
+            .put('/api/v1/preferences/5')
+            .send(updateEntry);
 
         expect(res.body).toEqual(updateEntry);
     });
@@ -257,30 +261,6 @@ describe('roomdate preference routes', () => {
         pool.end();
     });
 
-        it('updates a users preferences', async () => {
-        const entry = await Preference.create(seedData[0]);
-        const updateEntry = {
-            id: 1,
-            username: 'user1',
-            gender: '',
-            smoke: true,
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: true,
-            cleanlieness: 4,
-            pets: false,
-            age: 19,
-            radius: 5,
-            jobStatus: 2,
-            eduStatus: 1
-        };
-
-        return request(app)
-            .put('/api/v1/preferences')
-            .send(updateEntry);
-        expect(res.body).toEqual({ id: '1', ...updateEntry });
-    });
 });
 
 
