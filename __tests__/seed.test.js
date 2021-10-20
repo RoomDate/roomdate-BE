@@ -206,8 +206,6 @@ describe.skip('roomdate routes', () => {
 
 
 
-
-  
     it('POST login returns the user that is logging in', async () => {
         const agent = request.agent(app);
         const res = await agent.post('/api/v1/users/login').send({ username: 'user2' });
