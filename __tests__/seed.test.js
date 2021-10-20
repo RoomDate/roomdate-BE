@@ -12,10 +12,10 @@ const seedRoles = require('../data/seedRoles');
 const seedUsernames = require('../data/seedUsernames');
 const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
-const { use } = require('../lib/app.js');
+// const { use } = require('../lib/app.js');
 const User = require('../lib/models/User.js');
 
-describe.skip('roomdate routes', () => {
+describe('roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
@@ -27,7 +27,7 @@ describe.skip('roomdate routes', () => {
 
     it('SEED users_main', async () => {
 
-        const usersMainData = await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
+        await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
         INSERT INTO users_main ( google_id, username) 
         VALUES($1, $2) RETURNING *`, [username.google_id, username.username])));
 
@@ -37,7 +37,7 @@ describe.skip('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
 
     it('SEED employment', async () => {
-        const userEmployment = await Promise.all(seedEmployment.map(async (employee) =>  await pool.query(`
+        await Promise.all(seedEmployment.map(async (employee) =>  await pool.query(`
         INSERT INTO employment (job_status) 
         VALUES($1) RETURNING *`, [employee.employment_status])));
 
@@ -47,7 +47,7 @@ describe.skip('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
 
     it('SEED education', async () => {
-        const userEducation = await Promise.all(seedEducation.map(async (education) =>  await pool.query(`
+        await Promise.all(seedEducation.map(async (education) =>  await pool.query(`
         INSERT INTO education (edu_status) 
         VALUES($1) RETURNING *`, [education.education_status])));
 
@@ -56,7 +56,7 @@ describe.skip('roomdate routes', () => {
 
     //----------------------------------------------------------------------------------//
     it('SEED roles', async () => {
-        const userRole = await Promise.all(seedRoles.map(async (role) =>  await pool.query(`
+        await Promise.all(seedRoles.map(async (role) =>  await pool.query(`
         INSERT INTO roles (type) 
         VALUES($1) RETURNING *`, [role.role_type])));
 
@@ -66,7 +66,7 @@ describe.skip('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
 
     it('SEED users_info', async () => {
-        const userInformation = await Promise.all(seedUsersInfo.map(async (userInfo) =>  await pool.query(`
+        await Promise.all(seedUsersInfo.map(async (userInfo) =>  await pool.query(`
         INSERT INTO users_info (
           first_name, 
           username, 
@@ -94,7 +94,7 @@ describe.skip('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
   
     it('SEED preferences', async () => {
-        const userPreferences = await Promise.all(seedPreferences.map(async (userPrefer) =>  await pool.query(`
+        await Promise.all(seedPreferences.map(async (userPrefer) =>  await pool.query(`
         INSERT INTO preferences(
             username,
             smoke,
@@ -118,7 +118,7 @@ describe.skip('roomdate routes', () => {
     //----------------------------------------------------------------------------------//
 
     it('SEED users_profile', async () => {
-        const userProfile = await Promise.all(seedUsersProfile.map(async (userProf) =>  await pool.query(`
+        await Promise.all(seedUsersProfile.map(async (userProf) =>  await pool.query(`
         INSERT INTO users_profile(
           preference_id,
           username,
@@ -140,17 +140,12 @@ describe.skip('roomdate routes', () => {
     });
 
 
-
-
-
-
     //---------****-----------------------------******-----------------------------------//
   
     it('POST new user to data base', async () => {
         await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
-  
         expect(true).toEqual(true);
-    }); // --- working - cristian
+    }); 
 
     //---------****-----------------------------******-----------------------------------//
   
@@ -176,7 +171,7 @@ describe.skip('roomdate routes', () => {
             cleanliness: 4,
             pets: false
         });
-  
+
         expect(res.body).toEqual({
             id:expect.any(String),
             first_name: expect.any(String),
@@ -197,12 +192,14 @@ describe.skip('roomdate routes', () => {
             cleanliness: expect.any(Number),
             pets: expect.any(Boolean),
         });
-    }); // --- working - cristian
+
+
+
+
+    }); 
 
 
     //----------------------------------------------------------------------------------//
-
-
 
 
 
@@ -215,13 +212,15 @@ describe.skip('roomdate routes', () => {
     
     //----------------------------------------------------------------------------------//
 
-    it('GET zipcode and returns all users in a 5 mile radius', async () => {
-        const agent = request.agent(app);
-        await agent.post('/api/v1/users/login').send({ username: 'user1' });        
-        const res = await agent.get('/api/v1/users/zipcode/80204');
+    // it('GET zipcode and returns all users in a 5 mile radius', async () => {
+    //     const agent = request.agent(app);
+    //     await agent.post('/api/v1/users/login').send({ username: 'user1' });        
+    //     const res = await agent.get('/api/v1/users/zipcode/80204');
+
+    //     // console.log('EHEHEHHEEH', res.body);
       
-        expect(res.body).toEqual(expect.any(Array));
-    });
+    //     expect(res.body).toEqual(expect.any(Array));
+    // });
     
     //----------------------------------------------------------------------------------//
 
@@ -258,7 +257,6 @@ describe.skip('roomdate routes', () => {
     });
     
     //----------------------------------------------------------------------------------//
-
 
 
 
