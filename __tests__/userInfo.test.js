@@ -1,58 +1,27 @@
 const pool = require('../lib/utils/pool.js');
-const request = require('supertest');
 const setup = require('../data/setup.js');
+const request = require('supertest');
 const app = require('../lib/app.js');
+
+const seedEducation = require('../data/seedEducation');
+const seedEmployment = require('../data/seedEmployment');
+const seedPreferences = require('../data/seedPreferences');
+const seedRoles = require('../data/seedRoles');
+const seedUsernames = require('../data/seedUsernames');
+const seedUsersInfo = require('../data/seedUsersInfo');
+const seedUsersProfile = require('../data/seedUsersProfile');
+// const { use } = require('../lib/app.js');
 const User = require('../lib/models/User.js');
-const seedEducation = require('../data/seedEducation.js');
-const seedEmployment = require('../data/seedEmployment.js');
-const seedUsersProfile = require('../data/seedUsersProfile.js');
-const seedPreferences = require('../data/seedPreferences.js');
-const seedUsersInfo = require('../data/seedUsersInfo.js');
-const seedRoles = require('../data/seedRoles.js');
-const seedUsernames = require('../data/seedUsernames.js');
 
-
-const userInfoTemplate = {
-    first_name: 'El Chupacabra',
-    username:'user5',
-    job_status: '1',
-    edu_status: '3',
-    last_name: 'Scaryman',
-    dob: '1990-02-14',
-    age: 31,
-    gender:'female',
-    zipcode: '80206',
-    bio: 'I love blood, I am super friendly',
-    smoke: true,
-    drugs: true,
-    alcohol: false,
-    introvert: true,
-    extrovert: false,
-    cleanliness: 4,
-    pets: false
-};
-
-const userPreferenceTemplate = {
-    username:'user5',
-    smoke: true,
-    gender: 'female',
-    drugs: true,
-    alcohol: false,
-    introvert: true,
-    extrovert: false,
-    cleanliness: 4,
-    pets: false,
-    age: 31,
-    radius: 3,
-    job_status: 3,
-    edu_status:3
-};
-
-
-describe('roomdate preference routes', () => {
+describe('user_info roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
+
+    it('hshshs', async () => {
+        expect(true).toEqual(true);
+    });
+    //----------------------------------------------------------------------------------//
 
     it('SEED users_main', async () => {
 
@@ -168,119 +137,51 @@ describe('roomdate preference routes', () => {
         expect(true).toEqual(true);
     });
 
-
-    //----------------------------------------------------------------------------------//
-
-    it('posts new roommate preferences', async () => {
+it('POST new users_info', async () => {
         const agent = request.agent(app);
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
+        const res =  await agent.post('/api/v1/users/usersinfo').send({
+            first_name: 'El Chupacabra',
+            username:'user5',
+            job_status: '1',
+            edu_status: '3',
+            last_name: 'Scaryman',
+            dob: '1990-02-14',
+            age:31,
+            gender:'female',
+            zipcode: '80206',
+            bio: 'I love blood, I am super friendly',
+            smoke: true,
+            drugs: true,
+            alcohol: false,
+            introvert: true,
+            extrovert: false,
+            cleanliness: 4,
+            pets: false
+        });
 
-        const res = await agent
-            .post('/api/v1/preferences')
-            .send(userPreferenceTemplate);
         expect(res.body).toEqual({
             id:expect.any(String),
-            username:expect.any(String),
+            first_name: expect.any(String),
+            username: expect.any(String),
+            job_status: expect.any(String),
+            edu_status: expect.any(String),
+            last_name: expect.any(String),
+            dob: expect.any(String),
+            age: expect.any(Number),
+            gender:expect.any(String),
+            zipcode: expect.any(String),
+            bio: expect.any(String),
             smoke: expect.any(Boolean),
-            gender: expect.any(String),
             drugs: expect.any(Boolean),
             alcohol: expect.any(Boolean),
             introvert: expect.any(Boolean),
             extrovert: expect.any(Boolean),
             cleanliness: expect.any(Number),
-            pets: expect.any(Boolean),
-            age: expect.any(Number),
-            radius: expect.any(Number),
-            job_status: expect.any(String),
-            edu_status:expect.any(String)
+            pets: expect.any(Boolean)
         });
-    });
-
-    //----------------------------------------------------------------------------------//    
-    it('PUT an existing user', async () => {
-        // const entry = await Preference.create(seedData[0]);
-        const agent = request.agent(app);
-        const updateEntry = {
-            id: '5',
-            username: 'user5',
-            smoke: true,
-            gender: '',
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: true,
-            cleanliness: 4,
-            pets: false,
-            age: 19,
-            radius: 5,
-            job_status: '2',
-            edu_status: '1'
-        };
-
-        await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        const res =  await agent.put('/api/v1/preferences/5').send(updateEntry);
-
-        expect(res.body).toEqual(updateEntry);
-    });
-
-    //----------------------------------------------------------------------------------//    
-    it('PUT an existing user with no authorized user', async () => {
-        // const entry = await Preference.create(seedData[0]);
-        const agent = request.agent(app);
-        const updateEntry = {
-            id: '5',
-            username: 'user5',
-            smoke: true,
-            gender: '',
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: true,
-            cleanliness: 4,
-            pets: false,
-            age: 19,
-            radius: 5,
-            job_status: '2',
-            edu_status: '1'
-        };
-
-        await agent.post('/api/v1/users/login').send({ username: 'user4' });
-        const res =  await agent.put('/api/v1/preferences/5').send(updateEntry);
-
-        expect(res.status).toEqual(403);
-    });
 
 
-    afterAll(() => {
-        pool.end();
-    });
-
-        it('updates a users preferences', async () => {
-        const entry = await Preference.create(seedData[0]);
-        const updateEntry = {
-            id: 1,
-            username: 'user1',
-            gender: '',
-            smoke: true,
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: true,
-            cleanlieness: 4,
-            pets: false,
-            age: 19,
-            radius: 5,
-            jobStatus: 2,
-            eduStatus: 1
-        };
-
-        return request(app)
-            .put('/api/v1/preferences')
-            .send(updateEntry);
-        expect(res.body).toEqual({ id: '1', ...updateEntry });
-    });
-});
 
 
+    }); 
