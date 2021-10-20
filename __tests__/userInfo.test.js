@@ -13,7 +13,7 @@ const seedUsersProfile = require('../data/seedUsersProfile');
 // const { use } = require('../lib/app.js');
 const User = require('../lib/models/User.js');
 
-describe('roomdate routes', () => {
+describe('user_info roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
@@ -137,17 +137,7 @@ describe('roomdate routes', () => {
         expect(true).toEqual(true);
     });
 
-
-    //---------****-----------------------------******-----------------------------------//
-  
-    it('POST new user to data base', async () => {
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
-        expect(true).toEqual(true);
-    }); 
-
-    //---------****-----------------------------******-----------------------------------//
-  
-    it('POST new users_info', async () => {
+it('POST new users_info', async () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         const res =  await agent.post('/api/v1/users/usersinfo').send({
@@ -188,78 +178,10 @@ describe('roomdate routes', () => {
             introvert: expect.any(Boolean),
             extrovert: expect.any(Boolean),
             cleanliness: expect.any(Number),
-            pets: expect.any(Boolean),
+            pets: expect.any(Boolean)
         });
 
 
 
 
     }); 
-
-
-    //----------------------------------------------------------------------------------//
-
-
-
-    it('POST login returns the user that is logging in', async () => {
-        const agent = request.agent(app);
-        const res = await agent.post('/api/v1/users/login').send({ username: 'user2' });
-      
-        expect(res.body).toEqual({ username: 'user2' });
-    });
-    
-    //----------------------------------------------------------------------------------//
-
-    // it('GET zipcode and returns all users in a 5 mile radius', async () => {
-    //     const agent = request.agent(app);
-    //     await agent.post('/api/v1/users/login').send({ username: 'user1' });        
-    //     const res = await agent.get('/api/v1/users/zipcode/80204');
-
-    //     // console.log('EHEHEHHEEH', res.body);
-      
-    //     expect(res.body).toEqual(expect.any(Array));
-    // });
-    
-    //----------------------------------------------------------------------------------//
-
-    it('GET zipcode and returns all users in a 5 mile radius, but only roommies', async () => {
-        const agent = request.agent(app);
-        await agent.post('/api/v1/users/login').send({ username: 'user2' });        
-        const res = await agent.get('/api/v1/users/roommies/zipcode/80204');
-
-        let bool = true;
-        for(let i = 0; i < res.body.length; i++){
-            if(res.body[i].type !== 'roommie'){
-                bool = false;
-            }
-
-        }
-        expect(bool).toEqual(true);
-    });
-    
-    //----------------------------------------------------------------------------------//
-
-    it('GET zipcode and returns all users in a 5 mile radius, but only housers', async () => {
-        const agent = request.agent(app);
-        await agent.post('/api/v1/users/login').send({ username: 'user1' });        
-        const res = await agent.get('/api/v1/users/roommies/zipcode/80204');
-
-        let bool = true;
-        for(let i = 0; i < res.body.length; i++){
-            if(res.body[i].type !== 'houser'){
-                bool = false;
-            }
-
-        }
-        expect(bool).toEqual(true);
-    });
-    
-    //----------------------------------------------------------------------------------//
-
-
-
-
-    afterAll(() => {
-        pool.end();
-    });
-});
