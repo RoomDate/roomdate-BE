@@ -1,4 +1,3 @@
-
 const pool = require('../lib/utils/pool.js');
 const setup = require('../data/setup.js');
 const request = require('supertest');
@@ -145,59 +144,6 @@ describe('roomdate routes', () => {
         await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
         expect(true).toEqual(true);
     }); 
-
-    //---------****-----------------------------******-----------------------------------//
-  
-    it('POST new users_info', async () => {
-        const agent = request.agent(app);
-        await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        const res =  await agent.post('/api/v1/users/usersinfo').send({
-            first_name: 'El Chupacabra',
-            username:'user5',
-            job_status: '1',
-            edu_status: '3',
-            last_name: 'Scaryman',
-            dob: '1990-02-14',
-            age:31,
-            gender:'female',
-            zipcode: '80206',
-            bio: 'I love blood, I am super friendly',
-            smoke: true,
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: false,
-            cleanliness: 4,
-            pets: false
-        });
-
-        expect(res.body).toEqual({
-            id:expect.any(String),
-            first_name: expect.any(String),
-            username: expect.any(String),
-            job_status: expect.any(String),
-            edu_status: expect.any(String),
-            last_name: expect.any(String),
-            dob: expect.any(String),
-            age: expect.any(Number),
-            gender:expect.any(String),
-            zipcode: expect.any(String),
-            bio: expect.any(String),
-            smoke: expect.any(Boolean),
-            drugs: expect.any(Boolean),
-            alcohol: expect.any(Boolean),
-            introvert: expect.any(Boolean),
-            extrovert: expect.any(Boolean),
-            cleanliness: expect.any(Number),
-            pets: expect.any(Boolean),
-        });
-
-
-
-
-    }); 
-
-
     //----------------------------------------------------------------------------------//
 
 

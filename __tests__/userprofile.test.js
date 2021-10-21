@@ -48,8 +48,17 @@ const userPreferenceTemplate = {
     edu_status:3
 };
 
+const userProfileTemplate = {
+    preference_id: 5,
+    username: 'user5',
+    role_id: 1,
+    job_id: 1,
+    edu_id: 3,
+    user_info_id: 5
+};
 
-describe.skip('roomdate preference routes', () => {
+
+describe('roomdate user_profile routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
@@ -168,102 +177,51 @@ describe.skip('roomdate preference routes', () => {
         expect(true).toEqual(true);
     });
 
-
-    //----------------------------------------------------------------------------------//
-
-    it('posts new roommate preferences', async () => {
+    it('posts new user_profile', async () => {
         const agent = request.agent(app);
         await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
+        await agent.post('/api/v1/preferences').send(userPreferenceTemplate);
 
         const res = await agent
-            .post('/api/v1/preferences')
-            .send(userPreferenceTemplate);
+            .post('/api/v1/users/usersprofile')
+            .send(userProfileTemplate);
+
         expect(res.body).toEqual({
-            id:expect.any(String),
-            username:expect.any(String),
-            smoke: expect.any(Boolean),
-            gender: expect.any(String),
-            drugs: expect.any(Boolean),
-            alcohol: expect.any(Boolean),
-            introvert: expect.any(Boolean),
-            extrovert: expect.any(Boolean),
-            cleanliness: expect.any(Number),
-            pets: expect.any(Boolean),
-            age: expect.any(Number),
-            radius: expect.any(Number),
-            job_status: expect.any(String),
-            edu_status:expect.any(String)
+            id: expect.any(String),
+            preference_id: expect.any(String),
+            username: expect.any(String),
+            role_id: expect.any(String),
+            job_id: expect.any(String),
+            edu_id: expect.any(String),
+            user_info_id: expect.any(String)
+        });
+    });    
+
+    it('DELETES a users profile', async () => {
+        const agent = request.agent(app);
+        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
+        await agent.post('/api/v1/users/login').send({ username: 'user5' });
+        await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
+        await agent.post('/api/v1/preferences').send(userPreferenceTemplate);
+        const res = await agent 
+            .delete('/api/v1/users/usersprofile')
+            .send(userProfileTemplate);
+
+        expect(res.body).toEqual({
+            id: expect.any(String),
+            preference_id: expect.any(String),
+            username: expect.any(String),
+            role_id: expect.any(String),
+            job_id: expect.any(String),
+            edu_id: expect.any(String),
+            user_info_id: expect.any(String)
         });
     });
-
-    //----------------------------------------------------------------------------------//    
-    it('updates an existing users preferences', async () => {
-        // const entry = await Preference.create(seedData[0]);
-        const agent = request.agent(app);
-        const updateEntry = {
-            id: '5',
-            username: 'user5',
-            smoke: true,
-            gender: '',
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: true,
-            cleanliness: 4,
-            pets: false,
-            age: 19,
-            radius: 5,
-            job_status: '2',
-            edu_status: '1'
-        };
-
-        await agent
-            .post('/api/v1/users/login')
-            .send({ username: 'user5' });
-        const res =  await agent
-            .put('/api/v1/preferences/5')
-            .send(updateEntry);
-
-        expect(res.body).toEqual(updateEntry);
-    });
-
-    //----------------------------------------------------------------------------------//    
-    it('PUT an existing user with no authorized user', async () => {
-        const agent = request.agent(app);
-        const updateEntry = {
-            id: '5',
-            username: 'user5',
-            smoke: true,
-            gender: '',
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: true,
-            cleanliness: 4,
-            pets: false,
-            age: 19,
-            radius: 5,
-            job_status: '2',
-            edu_status: '1'
-        };
-
-        await agent
-            .post('/api/v1/users/login')
-            .send({ username: 'user4' });
-        const res =  await agent
-            .put('/api/v1/preferences/5')
-            .send(updateEntry);
-
-        expect(res.status).toEqual(403);
-    });
-
 
     afterAll(() => {
         pool.end();
     });
 
 });
-
-
