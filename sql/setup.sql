@@ -5,7 +5,9 @@ DROP TABLE IF EXISTS roles CASCADE;
 DROP TABLE IF EXISTS users_info CASCADE;
 DROP TABLE IF EXISTS preferences CASCADE;
 DROP TABLE IF EXISTS users_profile CASCADE;
-
+DROP TABLE IF EXISTS likes CASCADE;
+DROP TABLE IF EXISTS dislikes CASCADE;
+DROP TABLE IF EXISTS matches CASCADE;
 
 
 
@@ -82,3 +84,32 @@ CREATE TABLE users_profile (
 --   	liked_profiles TEXT [],
 --   	disliked_profiles TEXT []
 );
+
+
+
+CREATE TABLE likes (
+
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	user_owner TEXT NOT NULL REFERENCES users_main(username),
+	liked_user TEXT NOT NULL REFERENCES users_main(username),
+	unique_key TEXT UNIQUE
+
+);
+
+CREATE TABLE dislikes (
+
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	user_owner TEXT NOT NULL REFERENCES users_main(username),
+	disliked_user TEXT NOT NULL REFERENCES users_main(username)
+
+);
+
+CREATE TABLE matches (
+
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	user_a TEXT NOT NULL REFERENCES users_main(username),
+	user_b TEXT NOT NULL REFERENCES users_main(username),
+	unique_key TEXT NOT NULL UNIQUE REFERENCES likes(unique_key)
+
+);
+

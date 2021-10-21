@@ -34,21 +34,21 @@ const userInfoTemplate = {
     pets: false
 };
 
-const userPreferenceTemplate = {
-    username:'user5',
-    smoke: true,
-    gender: 'female',
-    drugs: true,
-    alcohol: false,
-    introvert: true,
-    extrovert: false,
-    cleanliness: 4,
-    pets: false,
-    age: 31,
-    radius: 3,
-    job_status: 3,
-    edu_status:3
-};
+// const userPreferenceTemplate = {
+//     username:'user5',
+//     smoke: true,
+//     gender: 'female',
+//     drugs: true,
+//     alcohol: false,
+//     introvert: true,
+//     extrovert: false,
+//     cleanliness: 4,
+//     pets: false,
+//     age: 31,
+//     radius: 3,
+//     job_status: 3,
+//     edu_status:3
+// };
 
 describe('user_info roomdate routes', () => {
 

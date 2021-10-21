@@ -198,16 +198,12 @@ describe('roomdate user_profile routes', () => {
             user_info_id: expect.any(String)
         });
     });    
-
     it('DELETES a users profile', async () => {
         const agent = request.agent(app);
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
-        await agent.post('/api/v1/preferences').send(userPreferenceTemplate);
         const res = await agent 
-            .delete('/api/v1/users/usersprofile')
-            .send(userProfileTemplate);
+            .delete('/api/v1/users/usersprofile/5');
+         
 
         expect(res.body).toEqual({
             id: expect.any(String),
