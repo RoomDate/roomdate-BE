@@ -55,10 +55,10 @@ const userProfileTemplate = {
     job_id: 1,
     edu_id: 3,
     user_info_id: 5
-}
+};
 
 
-describe('roomdate user_profile routes', () => {
+describe.skip('roomdate user_profile routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
@@ -187,6 +187,7 @@ describe('roomdate user_profile routes', () => {
             user_info_id: expect.any(String)
         });
     });    
+<<<<<<< HEAD
 
     it('creates new user_profile from other tables', async () => {
         const agent = request.agent(app);
@@ -212,6 +213,9 @@ describe('roomdate user_profile routes', () => {
 
 
      it('DELETES a users profile', async () => {
+=======
+    it('DELETES a users profile', async () => {
+>>>>>>> b21e2609639bb23cf040a340a9d507eebba51bad
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         const res = await agent 
