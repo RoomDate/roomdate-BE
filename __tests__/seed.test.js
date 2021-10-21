@@ -281,6 +281,24 @@ describe('roomdate routes', () => {
         });
     });
     //----------------------------------------------------------------------------------//
+    it('Like a profile POST/ PART 2', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user4' });        
+        await agent.get('/api/v1/users/roommies/zipcode/80204');
+
+        const res = await agent.post('/api/v1/users/likes/1');
+
+        expect(res.body).toEqual({ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' });
+    });
+    //----------------------------------------------------------------------------------//
+
+    it('view matches GET/ ', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user4' });        
+        const res = await agent.get('/api/v1/users/matches');
+        expect(res.body).toEqual([{ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' }]);
+    });
+    //----------------------------------------------------------------------------------//
     it('Disike a profile POST/', async () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user1' });        
