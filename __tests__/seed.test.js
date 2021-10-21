@@ -205,7 +205,7 @@ describe('roomdate routes', () => {
     it('POST login returns the user that is logging in', async () => {
         const agent = request.agent(app);
         const res = await agent.post('/api/v1/users/login').send({ username: 'user2' });
-        console.log(res.body);
+        
         expect(res.body).toEqual({ username: 'user2' });
     });
     
@@ -227,11 +227,11 @@ describe('roomdate routes', () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user2' });        
         const res = await agent.get('/api/v1/users/roommies/zipcode/80204');
-
-        let bool = true;
+        console.log('HERE', res.body);
+        let bool = false;
         for(let i = 0; i < res.body.length; i++){
-            if(res.body[i].type !== 'roommie'){
-                bool = false;
+            if(res.body[i].type === 'roommie'){
+                bool = true;
             }
 
         }
