@@ -198,6 +198,23 @@ describe('roomdate user_profile routes', () => {
             user_info_id: expect.any(String)
         });
     });    
+     it('DELETES a users profile', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user5' });
+        const res = await agent 
+            .delete('/api/v1/users/usersprofile/5');
+         
+
+        expect(res.body).toEqual({
+            id: expect.any(String),
+            preference_id: expect.any(String),
+            username: expect.any(String),
+            role_id: expect.any(String),
+            job_id: expect.any(String),
+            edu_id: expect.any(String),
+            user_info_id: expect.any(String)
+        });
+    });
 
     afterAll(() => {
         pool.end();

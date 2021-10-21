@@ -231,7 +231,6 @@ describe('roomdate preference routes', () => {
 
     //----------------------------------------------------------------------------------//    
     it('PUT an existing user with no authorized user', async () => {
-        // const entry = await Preference.create(seedData[0]);
         const agent = request.agent(app);
         const updateEntry = {
             id: '5',
@@ -250,8 +249,12 @@ describe('roomdate preference routes', () => {
             edu_status: '1'
         };
 
-        await agent.post('/api/v1/users/login').send({ username: 'user4' });
-        const res =  await agent.put('/api/v1/preferences/5').send(updateEntry);
+        await agent
+            .post('/api/v1/users/login')
+            .send({ username: 'user4' });
+        const res =  await agent
+            .put('/api/v1/preferences/5')
+            .send(updateEntry);
 
         expect(res.status).toEqual(403);
     });

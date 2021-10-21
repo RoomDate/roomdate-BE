@@ -263,6 +263,39 @@ describe('user_info roomdate routes', () => {
         expect(res.body).toEqual(updateEntry);
     });
 
+         it('tries to update an existing users userinfo without being authorized', async () => {
+        const agent = request.agent(app);
+        const updateEntry = {
+            id: '5',
+            first_name: 'El Chupacabra',
+            username:'user5',
+            job_status: '1',
+            edu_status: '3',
+            last_name: 'Scaryman',
+            dob: '1990-02-14T08:00:00.000Z',
+            age:31,
+            gender:'nonexistant',
+            zipcode: '80206',
+            bio: 'I love blood, I am super friendly',
+            smoke: true,
+            drugs: true,
+            alcohol: false,
+            introvert: true,
+            extrovert: false,
+            cleanliness: 4,
+            pets: false
+        };
+
+        await agent
+            .post('/api/v1/users/login')
+            .send({ username: 'user4' });
+        const res =  await agent
+            .put('/api/v1/users/usersinfo/5')
+            .send(updateEntry);
+
+        expect(res.status).toEqual(403);
+    });
+
     afterAll(() => {
         pool.end();
     });
