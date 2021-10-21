@@ -55,10 +55,10 @@ const userProfileTemplate = {
     job_id: 1,
     edu_id: 3,
     user_info_id: 5
-}
+};
 
 
-describe('roomdate user_profile routes', () => {
+describe.skip('roomdate user_profile routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
@@ -198,7 +198,7 @@ describe('roomdate user_profile routes', () => {
             user_info_id: expect.any(String)
         });
     });    
-     it('DELETES a users profile', async () => {
+    it('DELETES a users profile', async () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         const res = await agent 
