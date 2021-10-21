@@ -1,67 +1,24 @@
 const pool = require('../lib/utils/pool.js');
-const request = require('supertest');
 const setup = require('../data/setup.js');
+const request = require('supertest');
 const app = require('../lib/app.js');
+const notSeen = require('../lib/utils/helper');
+
+const seedEducation = require('../data/seedEducation');
+const seedEmployment = require('../data/seedEmployment');
+const seedPreferences = require('../data/seedPreferences');
+const seedRoles = require('../data/seedRoles');
+const seedUsernames = require('../data/seedUsernames');
+const seedUsersInfo = require('../data/seedUsersInfo');
+const seedUsersProfile = require('../data/seedUsersProfile');
 const User = require('../lib/models/User.js');
-const seedEducation = require('../data/seedEducation.js');
-const seedEmployment = require('../data/seedEmployment.js');
-const seedUsersProfile = require('../data/seedUsersProfile.js');
-const seedPreferences = require('../data/seedPreferences.js');
-const seedUsersInfo = require('../data/seedUsersInfo.js');
-const seedRoles = require('../data/seedRoles.js');
-const seedUsernames = require('../data/seedUsernames.js');
 
-
-const userInfoTemplate = {
-    first_name: 'El Chupacabra',
-    username:'user5',
-    job_status: '1',
-    edu_status: '3',
-    last_name: 'Scaryman',
-    dob: '1990-02-14',
-    age: 31,
-    gender:'female',
-    zipcode: '80206',
-    bio: 'I love blood, I am super friendly',
-    smoke: true,
-    drugs: true,
-    alcohol: false,
-    introvert: true,
-    extrovert: false,
-    cleanliness: 4,
-    pets: false
-};
-
-const userPreferenceTemplate = {
-    username:'user5',
-    smoke: true,
-    gender: 'female',
-    drugs: true,
-    alcohol: false,
-    introvert: true,
-    extrovert: false,
-    cleanliness: 4,
-    pets: false,
-    age: 31,
-    radius: 3,
-    job_status: 3,
-    edu_status:3
-};
-
-const userProfileTemplate = {
-    preference_id: 5,
-    username: 'user5',
-    role_id: 1,
-    job_id: 1,
-    edu_id: 3,
-    user_info_id: 5
-}
-
-
-describe.skip('roomdate user_profile routes', () => {
+describe.skip('roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
+
+    //----------------------------------------------------------------------------------//
 
     it('SEED users_main', async () => {
 
@@ -177,42 +134,59 @@ describe.skip('roomdate user_profile routes', () => {
         expect(true).toEqual(true);
     });
 
-    it('posts new user_profile', async () => {
+
+
+
+
+    it('Like a profile POST and MATCH', async () => {
         const agent = request.agent(app);
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
-        await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
-        await agent.post('/api/v1/preferences').send(userPreferenceTemplate);
+        await agent
+            .post('/api/v1/users/login')
+            .send({ username: 'user1' });        
+        await agent
+            .get('/api/v1/users/roommies/zipcode/80204');
+        await agent
+            .post('/api/v1/users/likes/4');
+        await agent
+            .post('/api/v1/users/login')
+            .send({ username: 'user4' }); 
+        await agent
+            .get('/api/v1/users/roommies/zipcode/80204');
+        await agent
+            .post('/api/v1/users/likes/1');       
+        
+        await agent
+            .get('/api/v1/users/likes/1');
 
         const res = await agent
-            .post('/api/v1/users/usersprofile')
-            .send(userProfileTemplate);
+            .post('/api/v1/users/matches/1');
 
-        expect(res.body).toEqual({
-            id: expect.any(String),
-            preference_id: expect.any(String),
-            username: expect.any(String),
-            role_id: expect.any(String),
-            job_id: expect.any(String),
-            edu_id: expect.any(String),
-            user_info_id: expect.any(String)
+        expect(res.body).toEqual({ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' });
         });
-    });    
-     it('DELETES a users profile', async () => {
+
+  //----------------------------------------------------------------------------------//
+
+    it('view matches GET/ ', async () => {
         const agent = request.agent(app);
-        await agent.post('/api/v1/users/login').send({ username: 'user5' });
+        await agent.post('/api/v1/users/login').send({ username: 'user4' });        
+        const res = await agent.get('/api/v1/users/matches/1');
+        expect(res.body).toEqual([{ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' }]);
+    });
+
+  //----------------------------------------------------------------------------------//    
+
+    it('DELETES a match', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user4' });
         const res = await agent 
-            .delete('/api/v1/users/usersprofile/5');
+            .delete('/api/v1/users/likes/1');
          
 
         expect(res.body).toEqual({
             id: expect.any(String),
-            preference_id: expect.any(String),
-            username: expect.any(String),
-            role_id: expect.any(String),
-            job_id: expect.any(String),
-            edu_id: expect.any(String),
-            user_info_id: expect.any(String)
+            unique_key: expect.any(String),
+            user_a: expect.any(String),
+            user_b: expect.any(String),
         });
     });
 
