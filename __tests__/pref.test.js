@@ -49,7 +49,7 @@ const userPreferenceTemplate = {
 };
 
 
-describe.skip('roomdate preference routes', () => {
+describe('roomdate preference routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
