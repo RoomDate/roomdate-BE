@@ -24,9 +24,9 @@ describe('roomdate routes', () => {
 
     it('SEED users_main', async () => {
 
-        await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
-        INSERT INTO users_main ( google_id, username) 
-        VALUES($1, $2) RETURNING *`, [username.google_id, username.username])));
+        await Promise.all(seedUsernames.map(async (users_main) =>  await pool.query(`
+        INSERT INTO users_main ( github_id, username) 
+        VALUES($1, $2) RETURNING *`, [users_main.github_id, users_main.username])));
 
         expect(true).toEqual(true);
     });
@@ -140,7 +140,7 @@ describe('roomdate routes', () => {
     //---------****-----------------------------******-----------------------------------//
   
     it('POST new user to data base', async () => {
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
+        await User.insertNewUser({ github_id: '122.3445.224', username: 'user5' });
         expect(true).toEqual(true);
     }); 
     //----------------------------------------------------------------------------------//
@@ -202,10 +202,10 @@ describe('roomdate routes', () => {
         await agent.get('/api/v1/users/roommies/zipcode/80204');
         const res = await agent.post('/api/v1/users/likes/4');
 
-
         // await agent.post('/api/v1/users/login').send({ username: 'user4' });        
         // await agent.get('/api/v1/users/roommies/zipcode/80204');
         // const res = await agent.post('/api/v1/users/likes/1');
+
 
         expect(res.body).toEqual({
             first_name: expect.any(String),
@@ -231,8 +231,6 @@ describe('roomdate routes', () => {
     //     const res = await agent.post('/api/v1/users/likes/1');
     //     expect(res.body).toEqual({ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' });
 
-
-    //     // expect(res.body).toEqual({ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' });
     // });
     //----------------------------------------------------------------------------------//
 
@@ -245,7 +243,8 @@ describe('roomdate routes', () => {
         // expect(res.body).toEqual([{ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' }]);
     });
     //----------------------------------------------------------------------------------//
-    it('Disike a profile POST/', async () => {
+
+    it('Dislike a profile POST/', async () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user1' });        
         await agent.get('/api/v1/users/roommies/zipcode/80204');
@@ -270,36 +269,37 @@ describe('roomdate routes', () => {
         });
     });
     //----------------------------------------------------------------------------------//
-    // it('gets an arry of objects of disliked and likes users', async () => {
+    it('gets an arry of objects of disliked and likes users', async () => {
 
-    //     const list  = await User.getDislikedAndLiked('user1');
+        const list  = await User.getDislikedAndLiked('user1');
 
-    //     expect(list).toEqual([{ disliked_user:'user2', liked_user: 'user3' }]);
-    // });
+        expect(list).toEqual([{ disliked_user:'user2', liked_user: 'user3' }]);
+    });
     //----------------------------------------------------------------------------------//
 
-    // it('filters out already liked and disliked people nearby', async () => {
-    //     const filteredNearby = await User.roommiesNearBy('user1', 80204);
-    //     console.log('CRISTIAN LOVES APPLES AND WATER', filteredNearby);
 
-    //     expect(filteredNearby).toEqual([
-    //         {
-    //             id: '2',
-    //             first_name: 'Angelina',
-    //             last_name: 'Jolie',
-    //             smoke: false,
-    //             alcohol: true,
-    //             drugs: false,
-    //             pets: true,
-    //             type: 'houser',
-    //             edu_status: 'in college',
-    //             job_status: 'unemployed',
-    //             zipcode: '80209',
-    //             bio: 'Hello, I am Tomb Raider',
-    //             username: 'user2'
-    //         }
-    //     ]);
-    // });
+    xit('filters out already liked and disliked people nearby', async () => {
+        const filteredNearby = await User.roommiesNearBy('user1', 80204);
+        console.log('CRISTIAN LOVES APPLES AND WATER', filteredNearby);
+
+        expect(filteredNearby).toEqual([
+            {
+                id: '2',
+                first_name: 'Angelina',
+                last_name: 'Jolie',
+                smoke: false,
+                alcohol: true,
+                drugs: false,
+                pets: true,
+                type: 'houser',
+                edu_status: 'in college',
+                job_status: 'unemployed',
+                zipcode: '80209',
+                bio: 'Hello, I am Tomb Raider',
+                username: 'user2'
+            }
+        ]);
+    });
     //----------------------------------------------------------------------------------//
 
     afterAll(() => {

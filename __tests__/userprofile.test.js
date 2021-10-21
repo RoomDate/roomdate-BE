@@ -65,14 +65,12 @@ describe.skip('roomdate user_profile routes', () => {
 
     it('SEED users_main', async () => {
 
-        await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
-        INSERT INTO users_main ( google_id, username) 
-        VALUES($1, $2) RETURNING *`, [username.google_id, username.username])));
+        await Promise.all(seedUsernames.map(async (users_main) =>  await pool.query(`
+        INSERT INTO users_main ( github_id, username) 
+        VALUES($1, $2) RETURNING *`, [users_main.github_id, users_main.username])));
 
         expect(true).toEqual(true);
     });
-
-    //----------------------------------------------------------------------------------//
 
     it('SEED employment', async () => {
         await Promise.all(seedEmployment.map(async (employee) =>  await pool.query(`
@@ -82,8 +80,6 @@ describe.skip('roomdate user_profile routes', () => {
         expect(true).toEqual(true);
     });
 
-    //----------------------------------------------------------------------------------//
-
     it('SEED education', async () => {
         await Promise.all(seedEducation.map(async (education) =>  await pool.query(`
         INSERT INTO education (edu_status) 
@@ -92,7 +88,6 @@ describe.skip('roomdate user_profile routes', () => {
         expect(true).toEqual(true);
     });
 
-    //----------------------------------------------------------------------------------//
     it('SEED roles', async () => {
         await Promise.all(seedRoles.map(async (role) =>  await pool.query(`
         INSERT INTO roles (type) 
@@ -100,8 +95,6 @@ describe.skip('roomdate user_profile routes', () => {
 
         expect(true).toEqual(true);
     });
-
-    //----------------------------------------------------------------------------------//
 
     it('SEED users_info', async () => {
         await Promise.all(seedUsersInfo.map(async (userInfo) =>  await pool.query(`
@@ -129,8 +122,6 @@ describe.skip('roomdate user_profile routes', () => {
         expect(true).toEqual(true);
     });
 
-    //----------------------------------------------------------------------------------//
-  
     it('SEED preferences', async () => {
         await Promise.all(seedPreferences.map(async (userPrefer) =>  await pool.query(`
         INSERT INTO preferences(
@@ -152,8 +143,6 @@ describe.skip('roomdate user_profile routes', () => {
 
         expect(true).toEqual(true);
     });
-
-    //----------------------------------------------------------------------------------//
 
     it('SEED users_profile', async () => {
         await Promise.all(seedUsersProfile.map(async (userProf) =>  await pool.query(`
@@ -179,7 +168,7 @@ describe.skip('roomdate user_profile routes', () => {
 
     it('posts new user_profile', async () => {
         const agent = request.agent(app);
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
+        await User.insertNewUser({ github_id: '122.3445.224', username: 'user5' });
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
         await agent.post('/api/v1/preferences').send(userPreferenceTemplate);
@@ -198,6 +187,7 @@ describe.skip('roomdate user_profile routes', () => {
             user_info_id: expect.any(String)
         });
     });    
+
     it('DELETES a users profile', async () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
