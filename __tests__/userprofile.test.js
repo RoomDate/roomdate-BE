@@ -65,9 +65,9 @@ describe.skip('roomdate user_profile routes', () => {
 
     it('SEED users_main', async () => {
 
-        await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
-        INSERT INTO users_main ( google_id, username) 
-        VALUES($1, $2) RETURNING *`, [username.google_id, username.username])));
+        await Promise.all(seedUsernames.map(async (users_main) =>  await pool.query(`
+        INSERT INTO users_main ( github_id, username) 
+        VALUES($1, $2) RETURNING *`, [users_main.github_id, users_main.username])));
 
         expect(true).toEqual(true);
     });
@@ -179,7 +179,7 @@ describe.skip('roomdate user_profile routes', () => {
 
     it('posts new user_profile', async () => {
         const agent = request.agent(app);
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
+        await User.insertNewUser({ github_id: '122.3445.224', username: 'user5' });
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
         await agent.post('/api/v1/preferences').send(userPreferenceTemplate);

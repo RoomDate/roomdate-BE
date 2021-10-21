@@ -22,9 +22,9 @@ describe.skip('roomdate routes', () => {
 
     it('SEED users_main', async () => {
 
-        await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
+        await Promise.all(seedUsernames.map(async (users_main) =>  await pool.query(`
         INSERT INTO users_main ( google_id, username) 
-        VALUES($1, $2) RETURNING *`, [username.google_id, username.username])));
+        VALUES($1, $2) RETURNING *`, [users_main.google_id, users_main.username])));
 
         expect(true).toEqual(true);
     });
