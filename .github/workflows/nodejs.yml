@@ -18,3 +18,5 @@ jobs:
       env:
         CI: true
         DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
+        ZIPCODE_KEY: {{secrets.ZIPCODE_KEY}}
+        APP_SECRET: {{secrets.APP_SECRET}}
