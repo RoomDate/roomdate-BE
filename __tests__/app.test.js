@@ -5,7 +5,7 @@ const setup = require('../data/setup.js');
 // const { use } = require('../lib/app.js');
 // const getZipcodes = require('../lib/utils/helper.js');
 
-describe('roomdate routes', () => {
+describe.skip('roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });

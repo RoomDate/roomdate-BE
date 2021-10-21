@@ -198,12 +198,39 @@ describe('roomdate routes', () => {
             }
 
         }
+        
         expect(bool).toEqual(true);
     });
     
     //----------------------------------------------------------------------------------//
 
+    it('Like a profile POST/', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user1' });        
+        await agent.get('/api/v1/users/roommies/zipcode/80204');
 
+        const res = await agent.post('/api/v1/users/likes/3');
+
+        expect(res.body).toEqual({
+            first_name: expect.any(String),
+            last_name: expect.any(String),
+            smoke: expect.any(Boolean),
+            alcohol: expect.any(Boolean),
+            drugs: expect.any(Boolean),
+            pets: expect.any(Boolean),
+            type: 'houser',
+            edu_status: expect.any(String),
+            job_status: expect.any(String),
+            zipcode: '80204',
+            bio: expect.any(String),
+            id:'3'
+        });
+    });
+
+
+
+
+    //----------------------------------------------------------------------------------//
 
 
     afterAll(() => {

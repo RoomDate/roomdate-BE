@@ -51,6 +51,7 @@ const userPreferenceTemplate = {
 };
 
 describe('user_info roomdate routes', () => {
+
     beforeAll(() => {
         return setup(pool);
     });
@@ -228,6 +229,7 @@ describe('user_info roomdate routes', () => {
             cleanliness: expect.any(Number),
             pets: expect.any(Boolean)
         });
+
     })
 
      it('updates an existing users userinfo', async () => {
@@ -295,6 +297,7 @@ describe('user_info roomdate routes', () => {
 
         expect(res.status).toEqual(403);
     });
+
 
     afterAll(() => {
         pool.end();
