@@ -99,23 +99,23 @@ describe.skip('roomdate user_profile routes', () => {
     it('SEED users_info', async () => {
         await Promise.all(seedUsersInfo.map(async (userInfo) =>  await pool.query(`
         INSERT INTO users_info (
-          first_name, 
-          username, 
-          job_status,
-          edu_status,
-          last_name, 
-          dob, 
-          age,
-          gender, 
-          zipcode, 
-          bio, 
-          smoke, 
-          drugs, 
-          alcohol, 
-          introvert, 
-          extrovert, 
-          cleanliness, 
-          pets) 
+            first_name, 
+            username, 
+            job_status,
+            edu_status,
+            last_name, 
+            dob, 
+            age,
+            gender, 
+            zipcode, 
+            bio, 
+            smoke, 
+            drugs, 
+            alcohol, 
+            introvert, 
+            extrovert, 
+            cleanliness, 
+            pets) 
         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`, [userInfo.first_name, userInfo.username, userInfo.job_status, userInfo.edu_status, userInfo.last_name, userInfo.dob, userInfo.age, userInfo.gender, userInfo.zipcode, userInfo.bio, userInfo.smoke, userInfo.drugs, userInfo.alcohol, userInfo.introvert, userInfo.extrovert, userInfo.cleanlieness, userInfo.pets]))
         );
 
@@ -147,12 +147,12 @@ describe.skip('roomdate user_profile routes', () => {
     it('SEED users_profile', async () => {
         await Promise.all(seedUsersProfile.map(async (userProf) =>  await pool.query(`
         INSERT INTO users_profile(
-          preference_id,
-          username,
-          role_id,
-          job_id ,
-          edu_id,
-          user_info_id ) 
+            preference_id,
+            username,
+            role_id,
+            job_id ,
+            edu_id,
+            user_info_id ) 
           VALUES($1, $2, $3, $4, $5, $6) RETURNING *`, [
             userProf.preference_username, 
             userProf.username, 
@@ -187,7 +187,6 @@ describe.skip('roomdate user_profile routes', () => {
             user_info_id: expect.any(String)
         });
     });    
-<<<<<<< HEAD
 
     it('creates new user_profile from other tables', async () => {
         const agent = request.agent(app);
@@ -211,16 +210,11 @@ describe.skip('roomdate user_profile routes', () => {
         });
     }); 
 
-
-     it('DELETES a users profile', async () => {
-=======
     it('DELETES a users profile', async () => {
->>>>>>> b21e2609639bb23cf040a340a9d507eebba51bad
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user5' });
         const res = await agent 
             .delete('/api/v1/users/usersprofile/5');
-         
 
         expect(res.body).toEqual({
             id: expect.any(String),
