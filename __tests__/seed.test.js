@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool.js');
 const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
+const notSeen = require('../lib/utils/helper');
 
 const seedEducation = require('../data/seedEducation');
 const seedEmployment = require('../data/seedEmployment');
@@ -10,7 +11,6 @@ const seedRoles = require('../data/seedRoles');
 const seedUsernames = require('../data/seedUsernames');
 const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
-// const { use } = require('../lib/app.js');
 const User = require('../lib/models/User.js');
 
 describe('roomdate routes', () => {
@@ -209,7 +209,48 @@ describe('roomdate routes', () => {
         await agent.post('/api/v1/users/login').send({ username: 'user1' });        
         await agent.get('/api/v1/users/roommies/zipcode/80204');
 
-        const res = await agent.post('/api/v1/users/likes/3');
+        const res = await agent.post('/api/v1/users/likes/4');
+
+        expect(res.body).toEqual({
+            first_name: expect.any(String),
+            last_name: expect.any(String),
+            smoke: expect.any(Boolean),
+            alcohol: expect.any(Boolean),
+            drugs: expect.any(Boolean),
+            pets: expect.any(Boolean),
+            type: 'roommie',
+            edu_status: expect.any(String),
+            job_status: expect.any(String),
+            zipcode: '80204',
+            bio: expect.any(String),
+            id:'4'
+        });
+    });
+    //----------------------------------------------------------------------------------//
+    it('Like a profile POST/ PART 2', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user4' });        
+        await agent.get('/api/v1/users/roommies/zipcode/80204');
+
+        const res = await agent.post('/api/v1/users/likes/1');
+
+        expect(res.body).toEqual({ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' });
+    });
+    //----------------------------------------------------------------------------------//
+
+    it('view matches GET/ ', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user4' });        
+        const res = await agent.get('/api/v1/users/matches');
+        expect(res.body).toEqual([{ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' }]);
+    });
+    //----------------------------------------------------------------------------------//
+    it('Disike a profile POST/', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user1' });        
+        await agent.get('/api/v1/users/roommies/zipcode/80204');
+
+        const res = await agent.post('/api/v1/users/dislikes/3');
 
         expect(res.body).toEqual({
             first_name: expect.any(String),
@@ -226,12 +267,41 @@ describe('roomdate routes', () => {
             id:'3'
         });
     });
+    //----------------------------------------------------------------------------------//
+    // it('gets an arry of objects of disliked and likes users', async () => {
 
+    //     const list  = await User.getDislikedAndLiked('user1');
 
-
-
+    //     expect(list).toEqual([{ disliked_user:'user2', liked_user: 'user3' }]);
+    // });
     //----------------------------------------------------------------------------------//
 
+    it('filters out already liked and disliked people nearby', async () => {
+
+
+
+        const filteredNearby = await User.roommiesNearBy('user1', 80204);
+        console.log('CRISTIAN LOVES APPLES AND WATER', filteredNearby);
+
+        expect(filteredNearby).toEqual([
+            {
+                id: '2',
+                first_name: 'Angelina',
+                last_name: 'Jolie',
+                smoke: false,
+                alcohol: true,
+                drugs: false,
+                pets: true,
+                type: 'houser',
+                edu_status: 'in college',
+                job_status: 'unemployed',
+                zipcode: '80209',
+                bio: 'Hello, I am Tomb Raider',
+                username: 'user2'
+            }
+        ]);
+    });
+    //----------------------------------------------------------------------------------//
 
     afterAll(() => {
         pool.end();
