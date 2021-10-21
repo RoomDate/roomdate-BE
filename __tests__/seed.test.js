@@ -281,7 +281,7 @@ describe('roomdate routes', () => {
 
 
         const filteredNearby = await User.roommiesNearBy('user1', 80204);
-        console.log('CRISTIAN LOVES APPLES AND WATER', filteredNearby);
+        // console.log('CRISTIAN LOVES APPLES AND WATER', filteredNearby);
 
         expect(filteredNearby).toEqual([
             {
@@ -294,7 +294,7 @@ describe('roomdate routes', () => {
                 pets: true,
                 type: 'houser',
                 edu_status: 'in college',
-                job_status: 'unemployed',
+                job_status: 'employed',
                 zipcode: '80209',
                 bio: 'Hello, I am Tomb Raider',
                 username: 'user2'

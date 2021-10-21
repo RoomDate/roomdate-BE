@@ -241,7 +241,7 @@ describe('user_info roomdate routes', () => {
             job_status: '1',
             edu_status: '3',
             last_name: 'Scaryman',
-            dob: '1990-02-14T08:00:00.000Z',
+            dob: '1990-02-14T07:00:00.000Z',
             age:31,
             gender:'nonexistant',
             zipcode: '80206',
