@@ -13,7 +13,7 @@ const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
 const User = require('../lib/models/User.js');
 
-describe('roomdate routes', () => {
+describe.skip('roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
