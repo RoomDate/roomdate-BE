@@ -188,28 +188,6 @@ describe.skip('roomdate user_profile routes', () => {
         });
     });    
 
-    it('creates new user_profile from other tables', async () => {
-        const agent = request.agent(app);
-        await User.insertNewUser({ github_id: '122.3445.224', username: 'user5' });
-        await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        await agent.post('/api/v1/users/usersinfo').send(userInfoTemplate);
-        await agent.post('/api/v1/preferences').send(userPreferenceTemplate);
-
-        const res = await agent
-            .post('/api/v1/users/usersprofile')
-            .send(userProfileTemplate);
-
-        expect(res.body).toEqual({
-            id: expect.any(String),
-            preference_id: expect.any(String),
-            username: expect.any(String),
-            role_id: expect.any(String),
-            job_id: expect.any(String),
-            edu_id: expect.any(String),
-            user_info_id: expect.any(String)
-        });
-    }); 
-
     it('DELETES a users profile', async () => {
         const agent = request.agent(app);
         await agent.post('/api/v1/users/login').send({ username: 'user5' });

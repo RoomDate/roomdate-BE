@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS matches CASCADE;
 
 
 CREATE TABLE users_main (
-  	github_id TEXT NOT NULL UNIQUE, 
     username TEXT NOT NULL PRIMARY KEY
 );
 

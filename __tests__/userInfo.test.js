@@ -50,7 +50,22 @@ const userInfoTemplate = {
 //     edu_status:3
 // };
 
-describe.skip('user_info roomdate routes', () => {
+jest.mock('../lib/middleware/ensureAuth.js', () => {
+    return (req, res, next) => {
+        req.user = {
+            username: 'randolf',
+            // github_id: 'randolf',
+            // iat: Date.now(),
+            // exp: Date.now(),
+        };
+  
+        next();
+    };
+});
+
+
+
+describe('user_info roomdate routes', () => {
 
     beforeAll(() => {
         return setup(pool);
@@ -175,28 +190,23 @@ describe.skip('user_info roomdate routes', () => {
         expect(true).toEqual(true);
     });
 
-    it('POST new users_info', async () => {
+    it.only('POST new users_info', async () => {
+        await User.insertNewUser({ username:'randolf' });
         const agent = request.agent(app);
-        await User.insertNewUser({ 
-            github_id: '122.3445.224', 
-            username: 'user5' });
-        await agent
-            .post('/api/v1/users/login')
-            .send({ username: 'user5' });
-        await agent
-            .post('/api/v1/users/usersinfo')
-            .send(userInfoTemplate);
+        // await agent
+        //     .post('/api/v1/users/usersinfo')
+        //     .send(userInfoTemplate);
 
         const res =  await agent
             .post('/api/v1/users/usersinfo')
             .send({
                 first_name: 'El Chupacabra',
-                username:'user5',
-                job_status: '1',
-                edu_status: '3',
+                username:'randolf',
+                job_status: 1,
+                edu_status: 3,
                 last_name: 'Scaryman',
                 dob: '1990-02-14',
-                age:31,
+                age: 31,
                 gender:'female',
                 zipcode: '80206',
                 bio: 'I love blood, I am super friendly',
@@ -296,6 +306,15 @@ describe.skip('user_info roomdate routes', () => {
             .send(updateEntry);
 
         expect(res.status).toEqual(403);
+    });
+
+
+    it('POST new users_info', async () => {
+        const agent = request.agent(app);
+        const res = await agent.get('/api/v1/auth/verify');
+        console.log(res.body);
+        expect(res.body).toEqual({ username:'randolf' });
+
     });
 
 

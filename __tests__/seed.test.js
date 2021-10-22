@@ -12,7 +12,7 @@ const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
 const User = require('../lib/models/User.js');
 
-describe('roomdate routes', () => {
+describe.skip('roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
@@ -275,7 +275,7 @@ describe('roomdate routes', () => {
 
     xit('filters out already liked and disliked people nearby', async () => {
         const filteredNearby = await User.roommiesNearBy('user1', 80204);
-        console.log('CRISTIAN LOVES APPLES AND WATER', filteredNearby);
+        // console.log('CRISTIAN LOVES APPLES AND WATER', filteredNearby);
 
         expect(filteredNearby).toEqual([
             {
