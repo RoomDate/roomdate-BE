@@ -54,7 +54,6 @@ jest.mock('../lib/middleware/ensureAuth.js', () => {
     return (req, res, next) => {
         req.user = {
             username: 'randolf',
-            // github_id: 'randolf',
             // iat: Date.now(),
             // exp: Date.now(),
         };
@@ -79,8 +78,8 @@ describe('user_info roomdate routes', () => {
     it('SEED users_main', async () => {
 
         await Promise.all(seedUsernames.map(async (users_main) =>  await pool.query(`
-        INSERT INTO users_main ( github_id, username) 
-        VALUES($1, $2) RETURNING *`, [users_main.github_id, users_main.username])));
+        INSERT INTO users_main (username) 
+        VALUES($1) RETURNING *`, [users_main.username])));
 
         expect(true).toEqual(true);
     });
@@ -190,7 +189,7 @@ describe('user_info roomdate routes', () => {
         expect(true).toEqual(true);
     });
 
-    it.only('POST new users_info', async () => {
+    it('POST new users_info', async () => {
         await User.insertNewUser({ username:'randolf' });
         const agent = request.agent(app);
         // await agent
@@ -198,7 +197,7 @@ describe('user_info roomdate routes', () => {
         //     .send(userInfoTemplate);
 
         const res =  await agent
-            .post('/api/v1/users/usersinfo')
+            .post('/api/v1/usersinfo')
             .send({
                 first_name: 'El Chupacabra',
                 username:'randolf',
@@ -246,7 +245,7 @@ describe('user_info roomdate routes', () => {
         const agent = request.agent(app);
         const updateEntry = {
             id: '5',
-            first_name: 'El Chupacabra',
+            first_name: 'randolf',
             username:'user5',
             job_status: '1',
             edu_status: '3',
@@ -265,17 +264,17 @@ describe('user_info roomdate routes', () => {
             pets: false
         };
 
-        await agent
-            .post('/api/v1/users/login')
-            .send({ username: 'user5' });
+        // await agent
+        //     .post('/api/v1/auth/login')
+        //     .send({ username: 'user5' });
         const res =  await agent
-            .put('/api/v1/users/usersinfo/5')
+            .put('/api/v1/usersinfo/5')
             .send(updateEntry);
 
         expect(res.body).toEqual(updateEntry);
     });
 
-    it('tries to update an existing users userinfo without being authorized', async () => {
+    xit('tries to update an existing users userinfo without being authorized', async () => {
         const agent = request.agent(app);
         const updateEntry = {
             id: '5',
@@ -309,7 +308,7 @@ describe('user_info roomdate routes', () => {
     });
 
 
-    it('POST new users_info', async () => {
+    xit('POST new users_info', async () => {
         const agent = request.agent(app);
         const res = await agent.get('/api/v1/auth/verify');
         console.log(res.body);
