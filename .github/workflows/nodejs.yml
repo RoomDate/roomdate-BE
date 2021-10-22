@@ -2,19 +2,24 @@ name: Jest Tests
 
 on: [push]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    container: node:latest
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: alchemy
-          POSTGRES_PASSWORD: alchemy
-    steps:
-    - uses: actions/checkout@v2
-    - run: npm ci
-    - run: npm test
-      env:
-        CI: true
-        DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
+    build:
+        runs-on: ubuntu-latest
+        container: node:latest
+        services:
+            postgres:
+                image: postgres
+                env:
+                    POSTGRES_USER: alchemy
+                    POSTGRES_PASSWORD: alchemy
+        steps:
+            - uses: actions/checkout@v2
+            - run: npm ci
+            - run: npm test
+              env:
+                  CI: true
+                  DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
+                  ZIPCODE_KEY: ${{secrets.ZIPCODE_KEY}}
+                  APP_SECRET: ${{secrets.APP_SECRET}}
+                  GITHUB_CLIENT_ID: ${{secrets.GITHUB_CLIENT_ID}}
+                  GITHUB_CLIENT_SECRET: ${{secrets.GITHUB_CLIENT_SECRET}}
+                  REDIRECT_URL: ${{secrets.REDIRECT_URL}}
