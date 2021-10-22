@@ -1,4 +1,4 @@
-const faker = require('faker');
+// const faker = require('faker');
 
 module.exports = [
     {
@@ -16,5 +16,49 @@ module.exports = [
     {
         id: 4,
         username: 'user4'
+    },
+    {
+        id: 5,
+        username: 'user5'
+    },
+    {
+        id: 6,
+        username: 'user6'
+    },
+    {
+        id: 7,
+        username: 'user7'
+    },
+    {
+        id: 8,
+        username: 'user8'
+    },
+    {
+        id: 9,
+        username: 'user9'
+    },
+    {
+        id: 10,
+        username: 'user10'
+    },
+    {
+        id: 11,
+        username: 'user11'
+    },
+    {
+        id: 12,
+        username: 'user12'
+    },
+    {
+        id: 13,
+        username: 'user13'
+    },
+    {
+        id: 14,
+        username: 'user14'
+    },
+    {
+        id: 15,
+        username: 'user15'
     }
 ];
