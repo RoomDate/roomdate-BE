@@ -64,7 +64,7 @@ jest.mock('../lib/middleware/ensureAuth.js', () => {
 
 
 
-describe('user_info roomdate routes', () => {
+describe.skip('user_info roomdate routes', () => {
 
     beforeAll(() => {
         return setup(pool);

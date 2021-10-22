@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool.js');
 const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
+// const notSeen = require('../lib/utils/helper');
 
 const seedEducation = require('../data/seedEducation');
 const seedEmployment = require('../data/seedEmployment');
@@ -12,7 +13,7 @@ const seedUsersInfo = require('../data/seedUsersInfo');
 const seedUsersProfile = require('../data/seedUsersProfile');
 const User = require('../lib/models/User.js');
 
-describe.skip('roomdate routes', () => {
+describe('roomdate routes', () => {
     beforeAll(() => {
         return setup(pool);
     });
@@ -24,9 +25,9 @@ describe.skip('roomdate routes', () => {
 
     it('SEED users_main', async () => {
 
-        await Promise.all(seedUsernames.map(async (users_main) =>  await pool.query(`
+        await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
         INSERT INTO users_main (username) 
-        VALUES($1) RETURNING *`, [users_main.username])));
+        VALUES($1) RETURNING *`, [username.username])));
 
         expect(true).toEqual(true);
     });
@@ -140,9 +141,77 @@ describe.skip('roomdate routes', () => {
     //---------****-----------------------------******-----------------------------------//
   
     it('POST new user to data base', async () => {
-        await User.insertNewUser({ username: 'user5' });
+        await User.insertNewUser({ username: 'user24' });
         expect(true).toEqual(true);
     }); 
+
+    //---------****-----------------------------******-----------------------------------//
+    
+    it('POST new user to data base BY ROUTE', async () => {
+        const res  = await request(app).post('/api/v1/users/signup').send({ username:'mikey' });
+
+        expect(res.body).toEqual({ username: 'mikey' });
+    }); 
+
+    //---------****-----------------------------******-----------------------------------//
+    //     it('POST new user BUT already exist should get 500 already exist', async () => {
+    //       const res  = await request(app).post('/api/v1/users/signup').send({ username:'mikey' });
+
+    //       expect(res.status).toEqual(500);
+    //   }); 
+
+    //---------****-----------------------------******-----------------------------------//
+  
+    it('POST new users_info', async () => {
+        const agent = request.agent(app);
+        await agent.post('/api/v1/users/login').send({ username: 'user5' });
+        const res =  await agent.post('/api/v1/users/usersinfo').send({
+            first_name: 'El Chupacabra',
+            username:'user5',
+            job_status: '1',
+            edu_status: '3',
+            last_name: 'Scaryman',
+            dob: '1990-02-14',
+            age:31,
+            gender:'female',
+            zipcode: '80206',
+            bio: 'I love blood, I am super friendly',
+            smoke: true,
+            drugs: true,
+            alcohol: false,
+            introvert: true,
+            extrovert: false,
+            cleanliness: 4,
+            pets: false
+        });
+
+        expect(res.body).toEqual({
+            id:expect.any(String),
+            first_name: expect.any(String),
+            username: expect.any(String),
+            job_status: expect.any(String),
+            edu_status: expect.any(String),
+            last_name: expect.any(String),
+            dob: expect.any(String),
+            age: expect.any(Number),
+            gender:expect.any(String),
+            zipcode: expect.any(String),
+            bio: expect.any(String),
+            smoke: expect.any(Boolean),
+            drugs: expect.any(Boolean),
+            alcohol: expect.any(Boolean),
+            introvert: expect.any(Boolean),
+            extrovert: expect.any(Boolean),
+            cleanliness: expect.any(Number),
+            pets: expect.any(Boolean),
+        });
+
+
+
+
+    }); 
+
+
     //----------------------------------------------------------------------------------//
 
 
