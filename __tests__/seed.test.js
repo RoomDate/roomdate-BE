@@ -264,7 +264,7 @@ describe('roomdate routes', () => {
         await agent.get('/api/v1/users/roommies/zipcode/80204');
 
         const res = await agent.post('/api/v1/users/likes/4');
-
+        console.log('LIKE PART1:', res.body);
         expect(res.body).toEqual({
             first_name: expect.any(String),
             last_name: expect.any(String),
@@ -287,7 +287,7 @@ describe('roomdate routes', () => {
         await agent.get('/api/v1/users/roommies/zipcode/80204');
 
         const res = await agent.post('/api/v1/users/likes/1');
-
+        console.log('LIKE PART2:', res.body);
         expect(res.body).toEqual({ 'id': '1', 'unique_key': 'user1user4', 'user_a': 'user4', 'user_b': 'user1' });
     });
     //----------------------------------------------------------------------------------//
