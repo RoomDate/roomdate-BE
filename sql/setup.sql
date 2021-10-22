@@ -111,4 +111,3 @@ CREATE TABLE matches (
 	unique_key TEXT NOT NULL UNIQUE REFERENCES likes(unique_key)
 
 );
-

@@ -148,11 +148,11 @@ describe('roomdate routes', () => {
 
     //---------****-----------------------------******-----------------------------------//
     
-    it('POST new user to data base BY ROUTE', async () => {
-        const res  = await request(app).post('/api/v1/users/signup').send({ username:'mikey' });
+    // it('POST new user to data base BY ROUTE', async () => {
+    //     const res  = await request(app).post('/api/v1/users/signup').send({ username:'mikey' });
 
-        expect(res.body).toEqual({ username: 'mikey' });
-    }); 
+    //     expect(res.body).toEqual({ username: 'mikey' });
+    // }); 
 
     //---------****-----------------------------******-----------------------------------//
 //     it('POST new user BUT already exist should get 500 already exist', async () => {
