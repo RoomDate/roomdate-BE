@@ -10,9 +10,12 @@ DROP TABLE IF EXISTS dislikes CASCADE;
 DROP TABLE IF EXISTS matches CASCADE;
 
 
+
+
+
 CREATE TABLE users_main (
-  	google_id TEXT NOT NULL UNIQUE, 
-    username TEXT NOT NULL PRIMARY KEY
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE employment (
@@ -108,3 +111,4 @@ CREATE TABLE matches (
 	unique_key TEXT NOT NULL UNIQUE REFERENCES likes(unique_key)
 
 );
+

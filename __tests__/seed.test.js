@@ -3,7 +3,7 @@ const pool = require('../lib/utils/pool.js');
 const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
-const notSeen = require('../lib/utils/helper');
+// const notSeen = require('../lib/utils/helper');
 
 const seedEducation = require('../data/seedEducation');
 const seedEmployment = require('../data/seedEmployment');
@@ -27,8 +27,8 @@ describe('roomdate routes', () => {
     it('SEED users_main', async () => {
 
         await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
-        INSERT INTO users_main ( google_id, username) 
-        VALUES($1, $2) RETURNING *`, [username.google_id, username.username])));
+        INSERT INTO users_main (username) 
+        VALUES($1) RETURNING *`, [username.username])));
 
         expect(true).toEqual(true);
     });
@@ -142,11 +142,26 @@ describe('roomdate routes', () => {
     //---------****-----------------------------******-----------------------------------//
   
     it('POST new user to data base', async () => {
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
+        await User.insertNewUser({ username: 'user24' });
         expect(true).toEqual(true);
     }); 
 
     //---------****-----------------------------******-----------------------------------//
+    
+    it('POST new user to data base BY ROUTE', async () => {
+        const res  = await request(app).post('/api/v1/users/signup').send({ username:'mikey' });
+
+        expect(res.body).toEqual({ username: 'mikey' });
+    }); 
+
+    //---------****-----------------------------******-----------------------------------//
+//     it('POST new user BUT already exist should get 500 already exist', async () => {
+//       const res  = await request(app).post('/api/v1/users/signup').send({ username:'mikey' });
+
+//       expect(res.status).toEqual(500);
+//   }); 
+
+  //---------****-----------------------------******-----------------------------------//
   
     it('POST new users_info', async () => {
         const agent = request.agent(app);

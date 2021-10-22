@@ -1,24 +1,47 @@
-const faker = require('faker');
+// const faker = require('faker');
+
+// module.exports = [
+//     {
+//         id: 1,
+//         username: 'user1'
+//     },
+//     {
+//         id: 2,
+//         username: 'user2'
+//     },
+//     {
+//         id: 3,
+//         username: 'user3'
+//     },
+//     {
+//         id: 4,
+//         username: 'user4'
+//     }
+// ];
 
 module.exports = [
     {
         id: 1,
-        google_id: `${faker.internet.ip()}`,
         username: 'user1'
     },
     {
         id: 2,
-        google_id: `${faker.internet.ip()}`,
         username: 'user2'
     },
     {
         id: 3,
-        google_id: `${faker.internet.ip()}`,
         username: 'user3'
     },
     {
         id: 4,
-        google_id: `${faker.internet.ip()}`,
         username: 'user4'
+    },
+    {
+        id: 5,
+        username: 'user5'
+    },
+    {
+        id: 6,
+        username: 'user6'
     }
 ];
