@@ -13,7 +13,59 @@ const seedUsersProfile = require('../data/seedUsersProfile');
 // const { use } = require('../lib/app.js');
 const User = require('../lib/models/User.js');
 
+
+const userInfoTemplate = {
+    first_name: 'El Chupacabra',
+    username:'user5',
+    job_status: '1',
+    edu_status: '3',
+    last_name: 'Scaryman',
+    dob: '1990-02-14',
+    age: 31,
+    gender:'female',
+    zipcode: '80206',
+    bio: 'I love blood, I am super friendly',
+    smoke: true,
+    drugs: true,
+    alcohol: false,
+    introvert: true,
+    extrovert: false,
+    cleanliness: 4,
+    pets: false
+};
+
+// const userPreferenceTemplate = {
+//     username:'user5',
+//     smoke: true,
+//     gender: 'female',
+//     drugs: true,
+//     alcohol: false,
+//     introvert: true,
+//     extrovert: false,
+//     cleanliness: 4,
+//     pets: false,
+//     age: 31,
+//     radius: 3,
+//     job_status: 3,
+//     edu_status:3
+// };
+
+// jest.mock('../lib/middleware/ensureAuth.js', () => {
+//     return (req, res, next) => {
+//         req.user = {
+//             username: 'randolf',
+//             // iat: Date.now(),
+//             // exp: Date.now(),
+//         };
+  
+//         next();
+//     };
+// });
+
+
+
 describe.skip('user_info roomdate routes', () => {
+
     beforeAll(() => {
         return setup(pool);
     });
@@ -25,9 +77,9 @@ describe.skip('user_info roomdate routes', () => {
 
     it('SEED users_main', async () => {
 
-        await Promise.all(seedUsernames.map(async (username) =>  await pool.query(`
-        INSERT INTO users_main ( google_id, username) 
-        VALUES($1, $2) RETURNING *`, [username.google_id, username.username])));
+        await Promise.all(seedUsernames.map(async (users_main) =>  await pool.query(`
+        INSERT INTO users_main (username) 
+        VALUES($1) RETURNING *`, [users_main.username])));
 
         expect(true).toEqual(true);
     });
@@ -137,33 +189,34 @@ describe.skip('user_info roomdate routes', () => {
         expect(true).toEqual(true);
     });
 
-    it('POST new user to data base', async () => {
-        await User.insertNewUser({ google_id: '122.3445.224', username: 'user5' });
-        expect(true).toEqual(true);
-    }); 
-
     it('POST new users_info', async () => {
+        await User.insertNewUser({ username:'randolf' });
         const agent = request.agent(app);
-        await agent.post('/api/v1/users/login').send({ username: 'user5' });
-        const res =  await agent.post('/api/v1/users/usersinfo').send({
-            first_name: 'El Chupacabra',
-            username:'user5',
-            job_status: '1',
-            edu_status: '3',
-            last_name: 'Scaryman',
-            dob: '1990-02-14',
-            age:31,
-            gender:'female',
-            zipcode: '80206',
-            bio: 'I love blood, I am super friendly',
-            smoke: true,
-            drugs: true,
-            alcohol: false,
-            introvert: true,
-            extrovert: false,
-            cleanliness: 4,
-            pets: false
-        });
+        // await agent
+        //     .post('/api/v1/users/usersinfo')
+        //     .send(userInfoTemplate);
+
+        const res =  await agent
+            .post('/api/v1/usersinfo')
+            .send({
+                first_name: 'El Chupacabra',
+                username:'randolf',
+                job_status: 1,
+                edu_status: 3,
+                last_name: 'Scaryman',
+                dob: '1990-02-14',
+                age: 31,
+                gender:'female',
+                zipcode: '80206',
+                bio: 'I love blood, I am super friendly',
+                smoke: true,
+                drugs: true,
+                alcohol: false,
+                introvert: true,
+                extrovert: false,
+                cleanliness: 4,
+                pets: false
+            });
 
         expect(res.body).toEqual({
             id:expect.any(String),
@@ -185,8 +238,83 @@ describe.skip('user_info roomdate routes', () => {
             cleanliness: expect.any(Number),
             pets: expect.any(Boolean)
         });
-    }); 
 
+    });
+
+    it('updates an existing users userinfo', async () => {
+        const agent = request.agent(app);
+        const updateEntry = {
+            id: '5',
+            first_name: 'randolf',
+            username:'user5',
+            job_status: '1',
+            edu_status: '3',
+            last_name: 'Scaryman',
+            dob: '1990-02-14T07:00:00.000Z',
+            age:31,
+            gender:'nonexistant',
+            zipcode: '80206',
+            bio: 'I love blood, I am super friendly',
+            smoke: true,
+            drugs: true,
+            alcohol: false,
+            introvert: true,
+            extrovert: false,
+            cleanliness: 4,
+            pets: false
+        };
+
+        // await agent
+        //     .post('/api/v1/auth/login')
+        //     .send({ username: 'user5' });
+        const res =  await agent
+            .put('/api/v1/usersinfo/5')
+            .send(updateEntry);
+
+        expect(res.body).toEqual(updateEntry);
+    });
+
+    xit('tries to update an existing users userinfo without being authorized', async () => {
+        const agent = request.agent(app);
+        const updateEntry = {
+            id: '5',
+            first_name: 'El Chupacabra',
+            username:'user5',
+            job_status: '1',
+            edu_status: '3',
+            last_name: 'Scaryman',
+            dob: '1990-02-14T08:00:00.000Z',
+            age:31,
+            gender:'nonexistant',
+            zipcode: '80206',
+            bio: 'I love blood, I am super friendly',
+            smoke: true,
+            drugs: true,
+            alcohol: false,
+            introvert: true,
+            extrovert: false,
+            cleanliness: 4,
+            pets: false
+        };
+
+        await agent
+            .post('/api/v1/users/login')
+            .send({ username: 'user4' });
+        const res =  await agent
+            .put('/api/v1/users/usersinfo/5')
+            .send(updateEntry);
+
+        expect(res.status).toEqual(403);
+    });
+
+
+    xit('POST new users_info', async () => {
+        const agent = request.agent(app);
+        const res = await agent.get('/api/v1/auth/verify');
+        console.log(res.body);
+        expect(res.body).toEqual({ username:'randolf' });
+
+    });
 
 
     afterAll(() => {

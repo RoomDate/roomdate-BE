@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS matches CASCADE;
 
 
 CREATE TABLE users_main (
-  	google_id TEXT NOT NULL UNIQUE, 
     username TEXT NOT NULL PRIMARY KEY
 );
 
@@ -73,14 +72,17 @@ CREATE TABLE preferences(
 
 CREATE TABLE users_profile (
   	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  	preference_id BIGINT NOT NULL REFERENCES preferences(id),
-  	username TEXT NOT NULL REFERENCES users_main(username),
-  	role_id BIGINT NOT NULL REFERENCES roles(id),
-  	job_id BIGINT NOT NULL REFERENCES employment(id),
-  	edu_id BIGINT NOT NULL REFERENCES  education(id),
-  	user_info_id BIGINT NOT NULL REFERENCES users_info(id)
-
+  	preference_id BIGINT NOT NULL REFERENCES preferences(id) ON DELETE CASCADE,
+  	username TEXT NOT NULL REFERENCES users_main(username) ON DELETE CASCADE,
+  	role_id BIGINT NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+  	job_id BIGINT NOT NULL REFERENCES employment(id) ON DELETE CASCADE,
+  	edu_id BIGINT NOT NULL REFERENCES  education(id) ON DELETE CASCADE,
+  	user_info_id BIGINT NOT NULL REFERENCES users_info(id) ON DELETE CASCADE
+--   	matches TEXT[],
+--   	liked_profiles TEXT [],
+--   	disliked_profiles TEXT []
 );
+
 
 
 CREATE TABLE likes (
@@ -108,3 +110,4 @@ CREATE TABLE matches (
 	unique_key TEXT NOT NULL UNIQUE REFERENCES likes(unique_key)
 
 );
+
