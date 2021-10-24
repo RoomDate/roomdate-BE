@@ -8,7 +8,7 @@ Historically, finding housemates online has been impersonal and clumsy, often le
 Room Date aims to eliminate those awkward interactions by helping you match with people based on shared interests or values.
 Using a dating app styled UI it's easy to swipe through our database and find potential roomies with a familiar UX.  
 
-Log in securely with your Google account to access potential roomies.</h6>
+
 
 ![FrontendMockup](https://user-images.githubusercontent.com/83792867/137665640-1cb9f64b-4aee-4534-85e7-1750470c4c7e.png)
 
