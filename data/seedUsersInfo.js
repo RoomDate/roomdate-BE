@@ -4,7 +4,6 @@ const generateDate = () => {
 
     return `${faker.datatype.number({ min:1950, max:2015 })}-${('0' + faker.datatype.number({ min:1, max:12 })).slice(-2)}-${('0' + faker.datatype.number({ min:1, max:28 })).slice(-2)}`;
 };
-
 module.exports = [
     {
         user_info_id: '1',
@@ -308,4 +307,3 @@ module.exports = [
     },
 
 ];
-
