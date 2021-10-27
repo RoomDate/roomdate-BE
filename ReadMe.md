@@ -23,6 +23,93 @@ Using a dating app styled UI it's easy to swipe through our database and find po
 ![Backend RoomDate](https://user-images.githubusercontent.com/83792867/137643244-92dcb6a5-6fbe-4d8d-8a33-112dc173dc31.png)
 
 
+<h3 align="center">How to use RoomDate</h3>
+<h5> In order to be able to get full user experience you will need to use an API client tool to test the API endpoints. Some examples are postman and thunderclient. Next follow the steps below:</h5>
+
+1. sigup as new user
+    - "POST"
+    - roomdate.herokuapp.com/api/v1/users/sigup
+    - { "username":"your unique username"}
+
+2. login 
+    - "POST"
+    - roomdate.herokuapp.com/api/v1/users/login
+    - { "username":"your unique username"}
+
+3. post your user information 
+    - "POST"
+    - roomdate.herokuapp.com/api/v1/users/userfo
+    -    {     
+        "username": String " your username",
+        "job_status": Number - pick a number between 1 and 4,
+        "edu_status": Number - pick a number between 1 and 3,
+        "first_name" : String "your name",
+        "last_name": String "your lastname",
+        "dob": String "your date of birth",
+        "age": Number - your age,
+        "gender": String,
+        "zipcode": "80204" -  use this zipcode to show more users in your area,
+        "bio": String,
+        "smoke": boolean,
+        "drugs": boolean,
+        "alcohol": boolean,
+        "introvert": boolean,
+        "extrovert": boolean,
+        "cleanlieness": Number - pick a job status between 1 and 5,
+        "pets": boolean
+   }
+   - NOTE: keep track of the id given in the body. It will be use in the next step.
+
+   4. post your preferences 
+    - "POST"
+    - roomdate.herokuapp.com/api/v1/preferences
+    -  {
+        "preference_id": "id given in the previous step",
+        username": String " your username",
+        "gender": "male",
+        "smoke": boolean,
+        "drugs": boolean,
+        "alcohol": boolean,
+        "introvert": boolean,
+        "extrovert": boolean,
+        "cleanlieness": Number - pick a job status between 1 and 5,
+        "pets": boolean,
+        "age": Number,
+        "radius": Number,
+        "employment_status": Number - pick a number between 1 and 4,
+        "education_status": Number - pick a number between 1 and 4
+    }
+
+5. Look for roommies in your area
+    - "GET"
+    - roomdate.herokuapp.com/api/v1/users/roommies/zipcode/80204
+    - look at the roommie id you would like to match with
+
+6. Like a potential roommie
+    - "POST"
+    - roomdate.herokuapp.com/api/v1/users/likes/id of roommie
+    - if the roommie you liked, liked you as well a match will be created.
+    - Otherwise, wait until someone likes you back
+
+7. Dislike a potential roommie
+    - "POST"
+    - roomdate.herokuapp.com/api/v1/users/dislikes/id of roommie
+
+8. Check for matches
+    - "GET"
+    - roomdate.herokuapp.com/api/v1/users/matches
+    - if you have not matched with anyone, it will deplay an empty array.
+
+9.  Logout
+    - "GET"
+    - roomdate.herokuapp.com/api/v1/users/Logout
 
 
-- 📫 How to reach me **roomdate@email.com**
+    
+
+- 📫 How to reach me 
+    - Justin Soto **justinwsoto@gmail.com**
+    - Madden Lockin **maddenlockin@gmail.com**
+    - Evon Perez **perez.evon@gmail.com**
+    - Cristian Montes **cmontesmujica@gmail.com**
+

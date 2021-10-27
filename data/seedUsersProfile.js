@@ -134,4 +134,4 @@ module.exports = [
         edu_id:2,
         user_info_id:15
     }
-]
+];
