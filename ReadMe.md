@@ -26,17 +26,17 @@ Using a dating app styled UI it's easy to swipe through our database and find po
 <h3 align="center">How to use RoomDate</h3>
 <h5> In order to be able to get full user experience you will need to use an API client tool to test the API endpoints. Some examples are postman and thunderclient. Next follow the steps below:</h5>
 
-1. sigup as new user
+1. Sigup as new user
     - "POST"
     - roomdate.herokuapp.com/api/v1/users/sigup
     - { "username":"your unique username"}
 
-2. login 
+2. Login 
     - "POST"
     - roomdate.herokuapp.com/api/v1/users/login
     - { "username":"your unique username"}
 
-3. post your user information 
+3. Post your user information 
     - "POST"
     - roomdate.herokuapp.com/api/v1/users/userfo
     -    {     
@@ -60,7 +60,7 @@ Using a dating app styled UI it's easy to swipe through our database and find po
    }
    - NOTE: keep track of the id given in the body. It will be use in the next step.
 
-   4. post your preferences 
+   4. Post your preferences 
     - "POST"
     - roomdate.herokuapp.com/api/v1/preferences
     -  {
